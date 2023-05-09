@@ -402,7 +402,41 @@ MonoBehaviour:
   - Assets/Bakery/examples/content/floor_lamp.FBX
   - Assets/Magic Light Probes/Examples/Models/HandfulOfCrystals.obj
   - Assets/Magic Light Probes/Examples/Models/RocksAndTree.FBX
-  uvOverlapAssetList: 00000000ffffffff0101000001010000
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/sniper1/sniper1.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/pistol3/pistol3.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/assault1/assault1.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/assault3/assault3.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Food/source/sushi.blend
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/shotgun1/shotgun1.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Food/sandwich-assembly/source/maya2sketchfab.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Food/source/Sushi
+    Test.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/sniper2/sniper2.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/FBX.FBX
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/smg2/smg2.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/pistol4/pistol4.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/OBJ.obj
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/assault2/assault2.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/shotgun2/shotgun2.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/smg1/smg1.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/pistol1/pistol1.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/pistol2/pistol2.fbx
+  - Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example Scene/Resources/Low
+    Poly Guns/Models/Guns/assault4/assault4.fbx
+  uvOverlapAssetList: 00000000ffffffff010100000101000001010000010100000101000001010000010100000101000001010000010100000101000001010000010100000101000001010000000000000101000001010000010100000101000001010000
   xatlasWarningShown: 0
   foundCompatibleSetup: 0
   gpuName: 

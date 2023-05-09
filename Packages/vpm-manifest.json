@@ -12,47 +12,65 @@
     "dev.onevr.vrworldtoolkit": {
       "version": "2.1.4"
     },
-    "com.mmmaellon.smartobjectsync": {
-      "version": "3.0.2"
+    "com.cyan.playerobjectpool": {
+      "version": "1.1.2"
+    },
+    "com.mmmaellon.p-shooters": {
+      "version": "2.2.1"
     }
   },
   "locked": {
     "com.vrchat.udonsharp": {
-      "version": "1.1.7",
+      "version": "1.1.8",
       "dependencies": {
-        "com.vrchat.worlds": "3.1.x"
+        "com.vrchat.worlds": "^3.1.x"
       }
     },
     "com.vrchat.worlds": {
-      "version": "3.1.13",
+      "version": "3.2.0",
       "dependencies": {
-        "com.vrchat.base": "3.1.13"
+        "com.vrchat.base": "3.2.0"
       }
     },
     "com.vrchat.base": {
-      "version": "3.1.13",
+      "version": "3.2.0",
       "dependencies": {}
     },
     "com.vrchat.clientsim": {
-      "version": "1.2.2",
+      "version": "1.2.4",
       "dependencies": {
-        "com.vrchat.worlds": "3.1.x"
+        "com.vrchat.worlds": "^3.1.x"
       }
     },
     "com.vrchat.core.vpm-resolver": {
-      "version": "0.1.18",
+      "version": "0.1.19",
       "dependencies": {}
     },
     "dev.onevr.vrworldtoolkit": {
-      "version": "2.1.4",
+      "version": "2.1.5",
       "dependencies": {
-        "com.vrchat.base": "3.1.x"
+        "com.vrchat.base": "^3.2.x"
       }
     },
     "com.mmmaellon.smartobjectsync": {
-      "version": "3.0.2",
+      "version": "3.0.4",
       "dependencies": {
         "com.vrchat.udonsharp": "1.1.X"
+      }
+    },
+    "com.cyan.playerobjectpool": {
+      "version": "1.1.2",
+      "dependencies": {
+        "com.vrchat.worlds": "^3.1.x",
+        "com.vrchat.udonsharp": "^1.1.x"
+      }
+    },
+    "com.mmmaellon.p-shooters": {
+      "version": "2.2.1",
+      "dependencies": {
+        "com.vrchat.udonsharp": "^1.1.X",
+        "com.mmmaellon.smartobjectsync": "^3.0.0",
+        "com.cyan.playerobjectpool": "^1.1.X"
       }
     }
   }

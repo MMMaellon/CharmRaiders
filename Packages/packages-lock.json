@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "com.cyan.playerobjectpool": {
+      "version": "file:com.cyan.playerobjectpool",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.mmmaellon.p-shooters": {
+      "version": "file:com.mmmaellon.p-shooters",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.mmmaellon.smartobjectsync": {
       "version": "file:com.mmmaellon.smartobjectsync",
       "depth": 0,
