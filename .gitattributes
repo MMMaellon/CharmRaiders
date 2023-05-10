@@ -2,6 +2,8 @@
 *.asset filter=lfs diff=lfs merge=lfs -text
 *.unity filter=lfs diff=lfs merge=lfs -text
 *.unitypackage filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+
 
 # Lightmaps
 *.exr filter=lfs diff=lfs merge=lfs -text
