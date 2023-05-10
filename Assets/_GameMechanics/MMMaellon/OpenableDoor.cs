@@ -13,6 +13,7 @@ namespace MMMaellon{
         public int maxHealth = 10;
         [UdonSynced(UdonSyncMode.None), System.NonSerialized, FieldChangeCallback(nameof(health))]
         public int _health = 10;
+        public bool AllowClick = true;
         public int health
         {
             get => _health;
@@ -40,6 +41,7 @@ namespace MMMaellon{
         void Start()
         {
             ResetHealth();
+            DisableInteractive = !AllowClick;
         }
 
         public override void Interact()
