@@ -3,6 +3,7 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
+using VRC.SDK3.Data;
 
 namespace MMMaellon{
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
@@ -14,6 +15,13 @@ namespace MMMaellon{
         [UdonSynced(UdonSyncMode.None), System.NonSerialized, FieldChangeCallback(nameof(health))]
         public int _health = 10;
         public bool AllowClick = true;
+
+        [System.NonSerialized]
+        public DataList _listeners = new DataList();
+        [System.NonSerialized]
+        public OpenableDoorListener[] listeners = new OpenableDoorListener[0];
+        [System.NonSerialized]
+        public DataToken[] _listenerTokenArray = new DataToken[0];
         public int health
         {
             get => _health;
@@ -23,6 +31,29 @@ namespace MMMaellon{
                 if (value < _health)
                 {
                     animator.SetTrigger("bounce");
+                }
+                if (Networking.LocalPlayer.IsOwner(gameObject))
+                {
+                    if (value > 0 && health <= 0)
+                    {
+                        foreach (OpenableDoorListener listener in listeners)
+                        {
+                            if (listener != null)
+                            {
+                                listener.OnClose(this, Networking.LocalPlayer);
+                            }
+                        }
+                    }
+                    else if (value <= 0 && health > 0)
+                    {
+                        foreach (OpenableDoorListener listener in listeners)
+                        {
+                            if (listener != null)
+                            {
+                                listener.OnOpen(this, Networking.LocalPlayer);
+                            }
+                        }
+                    }
                 }
                 _health = value;
                 if (maxHealth > 0)
@@ -47,6 +78,11 @@ namespace MMMaellon{
         public override void Interact()
         {
             ToggleOpen();
+        }
+
+        public override void ResetSpawn()
+        {
+            ResetHealth();
         }
 
         public void ResetHealth()
@@ -75,7 +111,7 @@ namespace MMMaellon{
                 return;
             }
 
-            damage = shooter.calcDamage();
+            damage = shooter.damage;
             if (damage <= 0)
             {
                 return;
@@ -104,19 +140,24 @@ namespace MMMaellon{
         Collider charmCollider;
         Vector3 lowestPoint;
         Vector3 nextLowestPoint;
-        ChildAttachmentState lastCharm;
+        [System.NonSerialized]
+        public ChildAttachmentState lastCharm;
         public override void SpawnCharm(ChildAttachmentState charm)
         {
             lastCharm = charm;
             charm.transform.position = objectParent.position;
             lowestPoint = objectParent.position;
             charmCollider = charm.GetComponent<Collider>();
-            if (Utilities.IsValid(charmCollider))
+            if (Utilities.IsValid(charmCollider) && charmCollider.enabled)
             {
                 lowestPoint.y = charmCollider.ClosestPoint(objectParent.position + (Vector3.down * 10000)).y;
             }
             foreach (Collider col in charm.GetComponentsInChildren<Collider>())
             {
+                if (!col.enabled)
+                {
+                    continue;
+                }
                 nextLowestPoint = col.ClosestPoint(objectParent.position + (Vector3.down * 10000));
                 if (lowestPoint.y > nextLowestPoint.y)
                 {
@@ -137,12 +178,16 @@ namespace MMMaellon{
             }
             lowestPoint = objectParent.position;
             charmCollider = lastCharm.GetComponent<Collider>();
-            if (Utilities.IsValid(charmCollider))
+            if (Utilities.IsValid(charmCollider) && charmCollider.enabled)
             {
                 lowestPoint.y = charmCollider.ClosestPoint(objectParent.position + (Vector3.down * 10000)).y;
             }
             foreach (Collider col in lastCharm.GetComponentsInChildren<Collider>())
             {
+                if (!col.enabled)
+                {
+                    continue;
+                }
                 nextLowestPoint = col.ClosestPoint(objectParent.position + (Vector3.down * 10000));
                 if (lowestPoint.y > nextLowestPoint.y)
                 {
@@ -152,6 +197,34 @@ namespace MMMaellon{
             lastCharm.transform.rotation = objectParent.rotation;
             lastCharm.transform.position = objectParent.position + (Vector3.up * Vector3.Distance(objectParent.position, lowestPoint));
             lastCharm.sync.Serialize();
+        }
+
+        public void AddListener(OpenableDoorListener listener)
+        {
+            if (!_listeners.Contains(listener))
+            {
+                _listeners.Add(listener);
+                listeners = new OpenableDoorListener[_listeners.Count];
+                _listenerTokenArray = _listeners.ToArray();
+                for (int i = 0; i < _listeners.Count; i++)
+                {
+                    listeners[i] = (OpenableDoorListener) _listenerTokenArray[i].Reference;
+                }
+            }
+        }
+
+        public void RemoveListener(OpenableDoorListener listener)
+        {
+            if (_listeners.Contains(listener))
+            {
+                _listeners.RemoveAll(listener);
+                listeners = new OpenableDoorListener[_listeners.Count];
+                _listenerTokenArray = _listeners.ToArray();
+                for (int i = 0; i < _listeners.Count; i++)
+                {
+                    listeners[i] = (OpenableDoorListener)_listenerTokenArray[i].Reference;
+                }
+            }
         }
     }
 }

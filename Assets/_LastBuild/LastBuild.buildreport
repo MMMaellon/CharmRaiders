@@ -1,0 +1,1508 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!641289076 &-6943205936619923440
+AudioBuildInfo:
+  m_IsAudioDisabled: 0
+  m_AudioClipCount: 23
+  m_AudioMixerCount: 0
+--- !u!1125 &1
+BuildReport:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LastBuild
+  m_Summary:
+    buildStartTime:
+      serializedVersion: 2
+      ticks: 638197142054421677
+    buildGUID: 00000000000000000000000000000000
+    platformName: Win64
+    platformGroupName: Standalone
+    options: 16
+    assetBundleOptions: 32
+    outputPath: C:/Users/MMMAEL~1/AppData/Local/Temp/DefaultCompany/CharmRaiders/scene-standalonewindows64-charmraiders.vrcw
+    crc: 1854556895
+    totalSize: 1479846
+    totalTimeTicks: 0
+    totalErrors: 48
+    totalWarnings: 0
+    buildType: 1
+    buildResult: 1
+  m_Files:
+  - path: D:/Archive/CharmRaiders/scene-standalonewindows64-charmraiders.vrcw/BuildPlayer-CharmRaiders
+    role: Scene
+    id: 0
+    totalSize: 3668152
+  - path: D:/Archive/CharmRaiders/scene-standalonewindows64-charmraiders.vrcw/BuildPlayer-CharmRaiders.sharedAssets
+    role: SharedAssets
+    id: 1
+    totalSize: 12844688
+  - path: D:/Archive/CharmRaiders/scene-standalonewindows64-charmraiders.vrcw/BuildPlayer-CharmRaiders.resource
+    role: StreamingResourceFile
+    id: 2
+    totalSize: 653056
+  - path: D:/Archive/CharmRaiders/scene-standalonewindows64-charmraiders.vrcw
+    role: AssetBundle
+    id: 3
+    totalSize: 1475877
+  - path: D:/Archive/CharmRaiders/scene-standalonewindows64-charmraiders.vrcw.manifest
+    role: AssetBundleTextManifest
+    id: 4
+    totalSize: 2741
+  - path: D:/Archive/CharmRaiders/CharmRaiders/CAB-339b2bd78b34158c2265a8fac57a5bdc
+    role: ResourcesFile
+    id: 5
+    totalSize: 4312
+  - path: D:/Archive/CharmRaiders/CharmRaiders
+    role: ManifestAssetBundle
+    id: 6
+    totalSize: 1057
+  - path: D:/Archive/CharmRaiders/CharmRaiders.manifest
+    role: AssetBundleTextManifest
+    id: 7
+    totalSize: 171
+  m_BuildSteps:
+  - stepName: Build Asset Bundles
+    durationTicks: 145457451
+    depth: 0
+    messages: []
+  - stepName: Calculate asset bundles to be built
+    durationTicks: 710349
+    depth: 1
+    messages: []
+  - stepName: Compile scripts
+    durationTicks: 36396991
+    depth: 1
+    messages: []
+  - stepName: Build player
+    durationTicks: 66480657
+    depth: 1
+    messages:
+    - type: 3
+      content: HTTPFormUseage:UrlEncoded
+  - stepName: Prepare assets for target platform
+    durationTicks: 1240560
+    depth: 2
+    messages: []
+  - stepName: Building scenes
+    durationTicks: 32221471
+    depth: 2
+    messages: []
+  - stepName: Building scene Assets/CharmRaiders.unity
+    durationTicks: 32207229
+    depth: 3
+    messages:
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because TestUpgrade (Script),
+        TestUpgrade (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove P_Shooter (Script) because Scope (Script), SimpleReload
+        (Script), SimpleReload (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because AutoRespawn (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because SecondaryPickup (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove P_Shooter (Script) because Scope (Script), SimpleReload
+        (Script), SimpleReload (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because AutoRespawn (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because SecondaryPickup (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove P_Shooter (Script) because Scope (Script), SimpleReload
+        (Script), SimpleReload (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because AutoRespawn (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because SecondaryPickup (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove P_Shooter (Script) because Scope (Script), SimpleReload
+        (Script), SimpleReload (Script) depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because AutoRespawn (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because SecondaryPickup (Script)
+        depends on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+    - type: 0
+      content: Can't remove SmartObjectSync (Script) because P_Shooter (Script) depends
+        on it
+  - stepName: Writing asset files
+    durationTicks: 7053048
+    depth: 2
+    messages: []
+  - stepName: Packaging assets - archive:/BuildPlayer-CharmRaiders/BuildPlayer-CharmRaiders.sharedAssets
+    durationTicks: 7024254
+    depth: 3
+    messages: []
+  - stepName: Creating compressed player package
+    durationTicks: 13313850
+    depth: 2
+    messages: []
+  - stepName: Postprocess built player
+    durationTicks: 51014
+    depth: 2
+    messages: []
+  m_Appendices:
+  - {fileID: 4523445363385582551}
+  - {fileID: 1466099448054947195}
+  - {fileID: 7687123738895475951}
+  - {fileID: 1557445376060343134}
+  - {fileID: -6943205936619923440}
+  - {fileID: 1400121660787212491}
+--- !u!1126 &1400121660787212491
+PackedAssets:
+  m_File: 5
+  m_ShortPath: CAB-339b2bd78b34158c2265a8fac57a5bdc
+  m_Overhead: 4096
+  m_Contents:
+  - fileID: 1
+    classID: 142
+    packedSize: 104
+    offset: 4096
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: AssetBundle Object
+  - fileID: 2
+    classID: 290
+    packedSize: 112
+    offset: 4200
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 'Built-in AssetBundleManifest: AssetBundleManifest'
+--- !u!1126 &1466099448054947195
+PackedAssets:
+  m_File: 1
+  m_ShortPath: BuildPlayer-CharmRaiders.sharedAssets
+  m_Overhead: 118731
+  m_Contents:
+  - fileID: 1
+    classID: 150
+    packedSize: 73
+    offset: 119672
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 2
+    classID: 142
+    packedSize: 156
+    offset: 119752
+    sourceAssetGUID: 00000000000000000000000000000000
+    buildTimeAssetPath: 
+  - fileID: 3
+    classID: 21
+    packedSize: 1052
+    offset: 119912
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 4
+    classID: 21
+    packedSize: 252
+    offset: 120968
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 5
+    classID: 21
+    packedSize: 1068
+    offset: 121224
+    sourceAssetGUID: de6871433b4a7114f87fd618af70c1d8
+    buildTimeAssetPath: Assets/Magic Light Probes/Examples/Materials/Default Green.mat
+  - fileID: 6
+    classID: 21
+    packedSize: 892
+    offset: 122296
+    sourceAssetGUID: 1708ec83918a8d2478d4787b4d89985a
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Materials/GunDark.mat
+  - fileID: 7
+    classID: 21
+    packedSize: 892
+    offset: 123192
+    sourceAssetGUID: 6ef2c9af1fcfa674ca5b00d14ce2a888
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Materials/GunLight.mat
+  - fileID: 8
+    classID: 21
+    packedSize: 80
+    offset: 124088
+    sourceAssetGUID: 05fdf80bfa8fb34419522676fd7dee5d
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Materials/ammoEmptyLight.mat
+  - fileID: 9
+    classID: 21
+    packedSize: 64
+    offset: 124168
+    sourceAssetGUID: 71a363f2fc1e4bd4fa26595c28a37286
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Materials/muzzle_flash.mat
+  - fileID: 10
+    classID: 21
+    packedSize: 936
+    offset: 124232
+    sourceAssetGUID: eae9c11350249284e8400a100179e0b2
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Materials/prototype_blue_grid.mat
+  - fileID: 11
+    classID: 21
+    packedSize: 1208
+    offset: 125168
+    sourceAssetGUID: 8c19a618a0bd9844583b91dca0875a34
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Materials/prototype_pink_grid.mat
+  - fileID: 12
+    classID: 21
+    packedSize: 936
+    offset: 126376
+    sourceAssetGUID: 5aa95b3fa56e28f43a84e301c3d19e08
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Materials/prototype_white_grid.mat
+  - fileID: 13
+    classID: 21
+    packedSize: 1212
+    offset: 127312
+    sourceAssetGUID: 82096aab38f01cb40a1cbf8629a810ba
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Materials/prototype_yellow_grid.mat
+  - fileID: 14
+    classID: 21
+    packedSize: 940
+    offset: 128528
+    sourceAssetGUID: 88e9119b6e679a848b6cc4b812721fbb
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/GraphicsBlitExampleScene/SampleSceneAssets/Sample
+      Material Blue Glow.mat
+  - fileID: 15
+    classID: 21
+    packedSize: 940
+    offset: 129472
+    sourceAssetGUID: 2249d68a0e7bf074286c24e22d34ced8
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/GraphicsBlitExampleScene/SampleSceneAssets/Sample
+      Material Green Glow.mat
+  - fileID: 16
+    classID: 21
+    packedSize: 940
+    offset: 130416
+    sourceAssetGUID: f9b6ae70f8b27454da67e14997bb525a
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/GraphicsBlitExampleScene/SampleSceneAssets/Sample
+      Material Purple Glow.mat
+  - fileID: 17
+    classID: 21
+    packedSize: 936
+    offset: 131360
+    sourceAssetGUID: e913b7f0bf0007b4590919fe35053b71
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/GraphicsBlitExampleScene/SampleSceneAssets/Sample
+      Material Red Glow.mat
+  - fileID: 18
+    classID: 21
+    packedSize: 896
+    offset: 132296
+    sourceAssetGUID: fc18322c8bd152b458ffc49ade697169
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/UdonExampleScene/SampleAssetsSet/Materials/GridFloor.mat
+  - fileID: 19
+    classID: 21
+    packedSize: 900
+    offset: 133192
+    sourceAssetGUID: fd20e45036ef323459e8286e9c23c02c
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/UdonExampleScene/SampleAssetsSet/Materials/GridFloor_udon.mat
+  - fileID: 20
+    classID: 28
+    packedSize: 699172
+    offset: 134096
+    sourceAssetGUID: 1d50805597ae3674f9267fafbce3733a
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/UdonExampleScene/SampleAssetsSet/Textures/GridFloor.png
+  - fileID: 21
+    classID: 28
+    packedSize: 699180
+    offset: 833272
+    sourceAssetGUID: 33a18574a1737ab42a75137c3b83c9be
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Textures/prototype_white_dff.png
+  - fileID: 22
+    classID: 28
+    packedSize: 699180
+    offset: 1532456
+    sourceAssetGUID: 3cae02495b88d2d4fbf19382b7993691
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Textures/prototype_blue_dff.png
+  - fileID: 23
+    classID: 28
+    packedSize: 1398268
+    offset: 2231640
+    sourceAssetGUID: 4ba9f24739c8721499ae85110ba2157d
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/UdonExampleScene/SampleAssetsSet/Textures/texture_matte/SampleAssetsSet_V1_phong1_MetallicSmoothness.png
+  - fileID: 24
+    classID: 28
+    packedSize: 812
+    offset: 3629912
+    sourceAssetGUID: 580615edf5e29d245af58fc5fe2b06ac
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Textures/SwatchPinkDAlbedo.png
+  - fileID: 25
+    classID: 28
+    packedSize: 699172
+    offset: 3630728
+    sourceAssetGUID: a196fd6788131ec459bfb26012466fc1
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Textures/GridEmissive.png
+  - fileID: 26
+    classID: 28
+    packedSize: 2796356
+    offset: 4329904
+    sourceAssetGUID: ab4e1feb84159f146bd1666598bad003
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/UdonExampleScene/SampleAssetsSet/Textures/texture_matte/SampleAssetsSet_V1_phong1_AlbedoTransparency.png
+  - fileID: 27
+    classID: 28
+    packedSize: 699176
+    offset: 7126264
+    sourceAssetGUID: b2c2c1a52cdb75943958a408093dee04
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Samples/UdonExampleScene/SampleAssetsSet/Textures/GridFloor_udon.png
+  - fileID: 28
+    classID: 28
+    packedSize: 812
+    offset: 7825440
+    sourceAssetGUID: b4646ae63b0bcca40b1bdde3b87e01bf
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Sample Assets/Prototyping/Textures/SwatchYellowAlbedo.png
+  - fileID: 29
+    classID: 28
+    packedSize: 1704
+    offset: 7826256
+    sourceAssetGUID: ec591d1df5dbfae4aab4c0aa639f766c
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Textures/Circle.png
+  - fileID: 30
+    classID: 48
+    packedSize: 27292
+    offset: 7827960
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 31
+    classID: 48
+    packedSize: 217092
+    offset: 7855256
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 32
+    classID: 48
+    packedSize: 474172
+    offset: 8072352
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 33
+    classID: 48
+    packedSize: 13452
+    offset: 8546528
+    sourceAssetGUID: 0000000000000000f000000000000000
+    buildTimeAssetPath: Resources/unity_builtin_extra
+  - fileID: 34
+    classID: 74
+    packedSize: 2696
+    offset: 8559984
+    sourceAssetGUID: 0a2d1dccdcd458f42ac81c9300c7393f
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorBounce.anim
+  - fileID: 35
+    classID: 74
+    packedSize: 2604
+    offset: 8562680
+    sourceAssetGUID: 1c71174e6a6c6334d86b1ca23a2461d2
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorClosed.anim
+  - fileID: 36
+    classID: 74
+    packedSize: 2596
+    offset: 8565288
+    sourceAssetGUID: 05e5a87b286291a4d89138a88df75b68
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorClosedAudio.anim
+  - fileID: 37
+    classID: 74
+    packedSize: 2376
+    offset: 8567888
+    sourceAssetGUID: 18b75c073ff61b64c97de2ba18d790b1
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorDisableAnimation.anim
+  - fileID: 38
+    classID: 74
+    packedSize: 14332
+    offset: 8570264
+    sourceAssetGUID: 43b03875ac69b4f4793c236679fbde47
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorOpen Crate.anim
+  - fileID: 39
+    classID: 74
+    packedSize: 4992
+    offset: 8584600
+    sourceAssetGUID: 4f5f3a046e191c04ab061baa7e0d9614
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorOpen.anim
+  - fileID: 40
+    classID: 74
+    packedSize: 3956
+    offset: 8589592
+    sourceAssetGUID: 452e988d7db3fa14891d3067be93e2d6
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorOpened Crate.anim
+  - fileID: 41
+    classID: 74
+    packedSize: 2620
+    offset: 8593552
+    sourceAssetGUID: bffd97587ac3fa9499e43c7b947c96e6
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/DoorOpened.anim
+  - fileID: 42
+    classID: 74
+    packedSize: 2324
+    offset: 8596176
+    sourceAssetGUID: 2beff0f47be625c4cbd891617daaf394
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/EmptyAnimation.anim
+  - fileID: 43
+    classID: 74
+    packedSize: 2380
+    offset: 8598504
+    sourceAssetGUID: 23e42c521413adc4fa21455093105d6a
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/HealthEmpty.anim
+  - fileID: 44
+    classID: 74
+    packedSize: 2380
+    offset: 8600888
+    sourceAssetGUID: 5ba547444f45b094caf8a656e29596fb
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/HealthFull.anim
+  - fileID: 45
+    classID: 74
+    packedSize: 2380
+    offset: 8603272
+    sourceAssetGUID: 014ffe0e75b6c48469badf53ae26cd1f
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/ShieldEmpty.anim
+  - fileID: 46
+    classID: 74
+    packedSize: 2380
+    offset: 8605656
+    sourceAssetGUID: af628ab124b287442b980ce5910f115a
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/ShieldFull.anim
+  - fileID: 47
+    classID: 74
+    packedSize: 2472
+    offset: 8608040
+    sourceAssetGUID: 8ec947c27ff256c4dace588d68428ed0
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_AltFireToggle.anim
+  - fileID: 48
+    classID: 74
+    packedSize: 2380
+    offset: 8610512
+    sourceAssetGUID: cac205f33a0d4674fbeecf5f4f7d1b9c
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_DisableAnimator.anim
+  - fileID: 49
+    classID: 74
+    packedSize: 2244
+    offset: 8612896
+    sourceAssetGUID: 9ec25a073673b0b45bc8765214c74529
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Disabled.anim
+  - fileID: 50
+    classID: 74
+    packedSize: 2240
+    offset: 8615144
+    sourceAssetGUID: 7e163287f7042b4418a21431c87ef839
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Drop.anim
+  - fileID: 51
+    classID: 74
+    packedSize: 4764
+    offset: 8617384
+    sourceAssetGUID: 84d7cbe6e04187d4a83da49d9f617ce8
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Empty.anim
+  - fileID: 52
+    classID: 74
+    packedSize: 2372
+    offset: 8622152
+    sourceAssetGUID: 4fb6736c44e5eab4eab54db7473cddf0
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_EmptyEnd.anim
+  - fileID: 53
+    classID: 74
+    packedSize: 2344
+    offset: 8624528
+    sourceAssetGUID: 043a7dff349761141b855ca8c0841f57
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_HasAmmo.anim
+  - fileID: 54
+    classID: 74
+    packedSize: 2240
+    offset: 8626872
+    sourceAssetGUID: c3359d042c5600d4997a7ba703ec8f0b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Idle.anim
+  - fileID: 55
+    classID: 74
+    packedSize: 2244
+    offset: 8629112
+    sourceAssetGUID: 6a562455da539dd488a50eee71ce9715
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Local.anim
+  - fileID: 56
+    classID: 74
+    packedSize: 2544
+    offset: 8631360
+    sourceAssetGUID: 788ed4ca8cc843d41b3c542964d3d249
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_LowAmmo.anim
+  - fileID: 57
+    classID: 74
+    packedSize: 2244
+    offset: 8633904
+    sourceAssetGUID: 62477533b3ca55c448c818dcfa6fd79e
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Nonlocal.anim
+  - fileID: 58
+    classID: 74
+    packedSize: 2500
+    offset: 8636152
+    sourceAssetGUID: 47a99c601c133bc4f9b24d5a56f63372
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Optimized.anim
+  - fileID: 59
+    classID: 74
+    packedSize: 2548
+    offset: 8638656
+    sourceAssetGUID: 615af63abd3948948940dd9d6a008a2b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_OutOfAmmo.anim
+  - fileID: 60
+    classID: 74
+    packedSize: 2420
+    offset: 8641208
+    sourceAssetGUID: 4f68eb4f8b42dcf4f840c61a76e33ec1
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Pickup.anim
+  - fileID: 61
+    classID: 74
+    packedSize: 2472
+    offset: 8643632
+    sourceAssetGUID: f1b043135033a3241af0b3693c69919a
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_RapidFireToggle.anim
+  - fileID: 62
+    classID: 74
+    packedSize: 36492
+    offset: 8646104
+    sourceAssetGUID: 58650065cd78dca4ab8ad1f9d326f4ee
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Reload.anim
+  - fileID: 63
+    classID: 74
+    packedSize: 2384
+    offset: 8682600
+    sourceAssetGUID: 2bacd55676c0c9a4487ccde623f5a3d5
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_ReloadEnd.anim
+  - fileID: 64
+    classID: 74
+    packedSize: 2244
+    offset: 8684984
+    sourceAssetGUID: b2901f3e9d590d747b795f2447d88379
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_Respawn.anim
+  - fileID: 65
+    classID: 74
+    packedSize: 7272
+    offset: 8687232
+    sourceAssetGUID: 11ba2267e27cb6f49b712724560c5a12
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_ShootAlt.anim
+  - fileID: 66
+    classID: 74
+    packedSize: 4864
+    offset: 8694504
+    sourceAssetGUID: c8a0c9da288b45749aff6e57ff3b6afa
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_ShootSingle.anim
+  - fileID: 67
+    classID: 74
+    packedSize: 2472
+    offset: 8699368
+    sourceAssetGUID: 761ec673f91ec6741a70e09d041cea6d
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Shooter_SingleFireToggle.anim
+  - fileID: 68
+    classID: 74
+    packedSize: 19140
+    offset: 8701840
+    sourceAssetGUID: 0dd040d4bde036348b5dfadef27a8554
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/StatsHidden.anim
+  - fileID: 69
+    classID: 74
+    packedSize: 2480
+    offset: 8720984
+    sourceAssetGUID: eff08ac09a3cd504688191358eccbd2f
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/StatsShown.anim
+  - fileID: 70
+    classID: 74
+    packedSize: 2364
+    offset: 8723464
+    sourceAssetGUID: d1028ce6a4f06744f8936100f7aa8c0b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/TeamBlue.anim
+  - fileID: 71
+    classID: 74
+    packedSize: 2368
+    offset: 8725832
+    sourceAssetGUID: f66b9ca29b046624296331dcc6612a86
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/TeamGreen.anim
+  - fileID: 72
+    classID: 74
+    packedSize: 2364
+    offset: 8728200
+    sourceAssetGUID: a6d2495cf6d3b534da04d4750f29879d
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/TeamRed.anim
+  - fileID: 73
+    classID: 83
+    packedSize: 168
+    offset: 8730568
+    sourceAssetGUID: 1ef2f867285b04a49a046d37a70657a8
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/400687__supersnd__microwave-door-open.wav
+  - fileID: 74
+    classID: 83
+    packedSize: 168
+    offset: 8730736
+    sourceAssetGUID: 21f99459381e6474883815b9664ba03e
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/400686__supersnd__microwave-door-close.wav
+  - fileID: 75
+    classID: 83
+    packedSize: 216
+    offset: 8730904
+    sourceAssetGUID: 2a99eb6b3c4870f449afd2307a0ed9d0
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Beefy-5.56-AR15-Single-Close-GunShot-B-www.fesliyanstudios.com-www.fesliyanstudios.com.mp3
+  - fileID: 76
+    classID: 83
+    packedSize: 152
+    offset: 8731120
+    sourceAssetGUID: 3b8e6dd64b5d6f347ae67ff2334a9735
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/428650__jomse__grabbook2.wav
+  - fileID: 77
+    classID: 83
+    packedSize: 172
+    offset: 8731272
+    sourceAssetGUID: 3cfc9e966007a634ba7625157ee9b41f
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Dry-Empty-GunFire-B-www.fesliyanstudios.com.mp3
+  - fileID: 78
+    classID: 83
+    packedSize: 168
+    offset: 8731448
+    sourceAssetGUID: 4d208209b62dcf34892a938e4137ad11
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/GunFoley/182268__martian__loys-test-gun_isolated.wav
+  - fileID: 79
+    classID: 83
+    packedSize: 168
+    offset: 8731616
+    sourceAssetGUID: 5a625825d3e1cc146b347539c579a475
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/GunFoley/182256__martian__foley-bullet-drop-muted.wav
+  - fileID: 80
+    classID: 83
+    packedSize: 216
+    offset: 8731784
+    sourceAssetGUID: 6c22712fcd7be8744976dcbaa16fa688
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Beefy-5.56-AR15-Single-Close-GunShot-C-www.fesliyanstudios.com-www.fesliyanstudios.com.mp3
+  - fileID: 81
+    classID: 83
+    packedSize: 172
+    offset: 8732000
+    sourceAssetGUID: 7830a1cb5e7589346abe76adb47194c7
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Dry-Empty-GunFire-A-www.fesliyanstudios.com.mp3
+  - fileID: 82
+    classID: 83
+    packedSize: 164
+    offset: 8732176
+    sourceAssetGUID: 7be9fe459f2b89f4ca86c6b4999aee5e
+    buildTimeAssetPath: Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example
+      Scene/Resources/265675__stereo-surgeon__synth-stab-1.wav
+  - fileID: 83
+    classID: 83
+    packedSize: 164
+    offset: 8732344
+    sourceAssetGUID: 81875a8bd45d10b43a461c6d8b10d5c6
+    buildTimeAssetPath: Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example
+      Scene/Resources/232135__yottasounds__splat-005(2).wav
+  - fileID: 84
+    classID: 83
+    packedSize: 172
+    offset: 8732512
+    sourceAssetGUID: 87df76426569bf34c87e3359a43a1736
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Pumping-Shotgun-E-www.fesliyanstudios.com.mp3
+  - fileID: 85
+    classID: 83
+    packedSize: 176
+    offset: 8732688
+    sourceAssetGUID: b0ff427b083a5ab4db4767c8a7b7adad
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/614185__bruhitybruh__car-door-smash-snare-kick.wav
+  - fileID: 86
+    classID: 83
+    packedSize: 180
+    offset: 8732864
+    sourceAssetGUID: c8e555c3971b1a545ae52d3b7adaa6e9
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/GunFoley/182252__martian__loys-gun-cockbullet-in-clip-trimmed.wav
+  - fileID: 87
+    classID: 83
+    packedSize: 160
+    offset: 8733048
+    sourceAssetGUID: d556d912059ee914a97715360aa455a4
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/518850__mrickey13__item-equip.mp3
+  - fileID: 88
+    classID: 83
+    packedSize: 152
+    offset: 8733208
+    sourceAssetGUID: e12e556cc60d3ef42b2cab8177a6b4f6
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/260614__kwahmah_02__pop.wav
+  - fileID: 89
+    classID: 83
+    packedSize: 164
+    offset: 8733360
+    sourceAssetGUID: e16579afe756e85459421f037b91b22c
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/449996__djt4nn3r__whoosh_short_mid.wav
+  - fileID: 90
+    classID: 83
+    packedSize: 216
+    offset: 8733528
+    sourceAssetGUID: e18ff565e1108b842bd0395055fd0167
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Beefy-5.56-AR15-Single-Close-GunShot-A-www.fesliyanstudios.com-www.fesliyanstudios.com.mp3
+  - fileID: 91
+    classID: 83
+    packedSize: 180
+    offset: 8733744
+    sourceAssetGUID: e8b508355b22ecb4fbe962658425f41d
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/Pistol-Cocking-C-www.fesliyanstudios.com-isolated1.wav
+  - fileID: 92
+    classID: 83
+    packedSize: 180
+    offset: 8733928
+    sourceAssetGUID: ed2b09a4f76484a44b95a19053388655
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/182228__martian__loys-gun-cockbullet-in-isolated2.wav
+  - fileID: 93
+    classID: 83
+    packedSize: 180
+    offset: 8734112
+    sourceAssetGUID: ede542ebb66777d4990ace72283f78ec
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/Pistol-Cocking-C-www.fesliyanstudios.com-isolated2.wav
+  - fileID: 94
+    classID: 83
+    packedSize: 160
+    offset: 8734296
+    sourceAssetGUID: f038aaa05b2564c4a90f55c9dacfa411
+    buildTimeAssetPath: Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example
+      Scene/Resources/118513__thefsoundman__punch_02.wav
+  - fileID: 95
+    classID: 83
+    packedSize: 168
+    offset: 8734456
+    sourceAssetGUID: fe407f6c662a29540aabf8238182b29a
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/676613__fivebrosstopmosyt__table-smash-1.wav
+  - fileID: 96
+    classID: 91
+    packedSize: 3024
+    offset: 8734624
+    sourceAssetGUID: 799eb903dd732c24eac94f1aa8c9c35f
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/TestOpenableDoor.controller
+  - fileID: 97
+    classID: 91
+    packedSize: 4348
+    offset: 8737648
+    sourceAssetGUID: 1cdbc7776aaba9b459a389e0f7dbc8b6
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Controllers/PlayerStatsAnimator.controller
+  - fileID: 98
+    classID: 91
+    packedSize: 11536
+    offset: 8742000
+    sourceAssetGUID: fb5f5adb926eca047826dc6535f8d4c5
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Animations/Controllers/SimpleGun.controller
+  - fileID: 99
+    classID: 115
+    packedSize: 96
+    offset: 118368
+    sourceAssetGUID: 4ecd63eff847044b68db9453ce219299
+    buildTimeAssetPath: Packages/com.vrchat.base/Runtime/VRCSDK/Plugins/VRCCore-Editor.dll
+  - fileID: 100
+    classID: 115
+    packedSize: 116
+    offset: 118464
+    sourceAssetGUID: 661092b4961be7145bfbe56e1e62337b
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Runtime/VRCSDK/Plugins/VRCSDK3.dll
+  - fileID: 101
+    classID: 115
+    packedSize: 108
+    offset: 118584
+    sourceAssetGUID: 661092b4961be7145bfbe56e1e62337b
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Runtime/VRCSDK/Plugins/VRCSDK3.dll
+  - fileID: 102
+    classID: 115
+    packedSize: 96
+    offset: 118696
+    sourceAssetGUID: 0cd44c1031e13a943bb63640046fad76
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UI/Core/Layout/CanvasScaler.cs
+  - fileID: 103
+    classID: 115
+    packedSize: 88
+    offset: 118792
+    sourceAssetGUID: 45115577ef41a5b4ca741ed302693907
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Runtime/Udon/UdonBehaviour.cs
+  - fileID: 104
+    classID: 115
+    packedSize: 136
+    offset: 118880
+    sourceAssetGUID: 6922f711e24eb38459bf73a5fd4eac34
+    buildTimeAssetPath: Packages/com.cyan.playerobjectpool/UdonSharp/CyanPlayerObjectPool.cs
+  - fileID: 105
+    classID: 115
+    packedSize: 92
+    offset: 119016
+    sourceAssetGUID: 9fead2e66ed3458489d607d57166f67b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Scripts/Player.cs
+  - fileID: 106
+    classID: 115
+    packedSize: 128
+    offset: 119112
+    sourceAssetGUID: bf61d954ecb803046953c666facfb904
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Runtime/Udon/ProgramSources/SerializedUdonProgramAsset.cs
+  - fileID: 107
+    classID: 115
+    packedSize: 116
+    offset: 119240
+    sourceAssetGUID: bf950a60ad1c528408f9eb68f31b8ce9
+    buildTimeAssetPath: Packages/com.mmmaellon.smartobjectsync/Runtime/Scripts/SmartObjectSync.cs
+  - fileID: 108
+    classID: 115
+    packedSize: 128
+    offset: 119360
+    sourceAssetGUID: d9c0d913d6d4bd741aec5a89b8072b28
+    buildTimeAssetPath: Packages/com.cyan.playerobjectpool/Runtime/CyanPoolSetupHelper.cs
+  - fileID: 109
+    classID: 115
+    packedSize: 88
+    offset: 119488
+    sourceAssetGUID: fe87c0e1cc204ed48ad3b37840f39efc
+    buildTimeAssetPath: Packages/com.unity.ugui/Runtime/UI/Core/Image.cs
+  - fileID: 110
+    classID: 115
+    packedSize: 92
+    offset: 119576
+    sourceAssetGUID: 661092b4961be7145bfbe56e1e62337b
+    buildTimeAssetPath: Packages/com.vrchat.worlds/Runtime/VRCSDK/Plugins/VRCSDK3.dll
+  - fileID: 111
+    classID: 213
+    packedSize: 596
+    offset: 8753536
+    sourceAssetGUID: ec591d1df5dbfae4aab4c0aa639f766c
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Textures/Circle.png
+  - fileID: 112
+    classID: 221
+    packedSize: 88
+    offset: 8754136
+    sourceAssetGUID: 6be4e73a02c1c2a4b9b85364cedf1c01
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/TestCrateOverride.overrideController
+  - fileID: 113
+    classID: 1
+    packedSize: 83
+    offset: 8754224
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 114
+    classID: 1
+    packedSize: 83
+    offset: 8754312
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 115
+    classID: 1
+    packedSize: 63
+    offset: 8754400
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 116
+    classID: 1
+    packedSize: 63
+    offset: 8754464
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 117
+    classID: 1
+    packedSize: 63
+    offset: 8754528
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 118
+    classID: 1
+    packedSize: 67
+    offset: 8754592
+    sourceAssetGUID: a35f2996ce6d14c4c854aba5420212ed
+    buildTimeAssetPath: Packages/com.cyan.playerobjectpool/PlayerObjectPool.prefab
+  - fileID: 119
+    classID: 4
+    packedSize: 68
+    offset: 8754664
+    sourceAssetGUID: a35f2996ce6d14c4c854aba5420212ed
+    buildTimeAssetPath: Packages/com.cyan.playerobjectpool/PlayerObjectPool.prefab
+  - fileID: 120
+    classID: 4
+    packedSize: 80
+    offset: 8754736
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 121
+    classID: 54
+    packedSize: 36
+    offset: 8754816
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 122
+    classID: 95
+    packedSize: 56
+    offset: 8754856
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 123
+    classID: 136
+    packedSize: 52
+    offset: 8754912
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 124
+    classID: 222
+    packedSize: 13
+    offset: 8754968
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 125
+    classID: 222
+    packedSize: 13
+    offset: 8754984
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 126
+    classID: 222
+    packedSize: 13
+    offset: 8755000
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 127
+    classID: 223
+    packedSize: 55
+    offset: 8755016
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 128
+    classID: 224
+    packedSize: 108
+    offset: 8755072
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 129
+    classID: 224
+    packedSize: 108
+    offset: 8755184
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 130
+    classID: 224
+    packedSize: 144
+    offset: 8755296
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 131
+    classID: 224
+    packedSize: 108
+    offset: 8755440
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 132
+    classID: 225
+    packedSize: 24
+    offset: 8755552
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 133
+    classID: 114
+    packedSize: 129648
+    offset: 8755576
+    sourceAssetGUID: 99ebe286be3710044a62e486269be91a
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/07772e86f2657154f96c679998688508.asset
+  - fileID: 134
+    classID: 114
+    packedSize: 222396
+    offset: 8885224
+    sourceAssetGUID: 8ed5eebe0f971d849b5c91115fc0a936
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/1ab737fd85a61b040948ce4258cf2076.asset
+  - fileID: 135
+    classID: 114
+    packedSize: 210184
+    offset: 9107624
+    sourceAssetGUID: cff78590ea4a01a47bb9e1d8edc30f2e
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/2198d3daa09eca24186cd87102f01cb5.asset
+  - fileID: 136
+    classID: 114
+    packedSize: 108548
+    offset: 9317808
+    sourceAssetGUID: 80d8b8a00316e244ab3bd7b05dfde19f
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/29c1aaaacaf72ae4d9959df40d012024.asset
+  - fileID: 137
+    classID: 114
+    packedSize: 14128
+    offset: 9426360
+    sourceAssetGUID: 4cc99d05d55f6434cac1b9e644b234e6
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/2ea1a847ba056a64facfa243f14b199a.asset
+  - fileID: 138
+    classID: 114
+    packedSize: 83748
+    offset: 9440488
+    sourceAssetGUID: cf9ea9f40d819474496e2d2c95ada2a8
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/36b5fce5c2d8c7643a7fe04815764b72.asset
+  - fileID: 139
+    classID: 114
+    packedSize: 138248
+    offset: 9524240
+    sourceAssetGUID: e2302ceb03943034e87618d160b52493
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/490d3b2e2072e184081b676228e7256a.asset
+  - fileID: 140
+    classID: 114
+    packedSize: 19872
+    offset: 9662488
+    sourceAssetGUID: 7cdfd2b057975554983ed559214e579c
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/4ba601fc4fec3c94ba5ac38a18ec2a5f.asset
+  - fileID: 141
+    classID: 114
+    packedSize: 142084
+    offset: 9682360
+    sourceAssetGUID: 8203506abbd471b4796404da5840279c
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/4fce1c6217c5ab943864a0039858df4d.asset
+  - fileID: 142
+    classID: 114
+    packedSize: 718840
+    offset: 9824448
+    sourceAssetGUID: 41d6ae696a46bef4dae36aadb3649b09
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/5590289dbbc8c9e4383d1d53c095e59c.asset
+  - fileID: 143
+    classID: 114
+    packedSize: 64180
+    offset: 10543288
+    sourceAssetGUID: 0bb456bf7ea991a469949e06f9b9c0f6
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/5cb61241a7633e241a2ba1eb22b5ed1a.asset
+  - fileID: 144
+    classID: 114
+    packedSize: 227628
+    offset: 10607472
+    sourceAssetGUID: d21fc20418fdc69478ab7358b273a433
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/5d8c92274e3061947b5b32a8ff067417.asset
+  - fileID: 145
+    classID: 114
+    packedSize: 124196
+    offset: 10835104
+    sourceAssetGUID: e95236af5c074da4a9b3761200c6a19e
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/6abb897adeacc7d46b76bb2253b937d6.asset
+  - fileID: 146
+    classID: 114
+    packedSize: 568556
+    offset: 10959304
+    sourceAssetGUID: e539ef309498d60468362839d8002f77
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/750f4af53b3b4f7488041914ce6a5568.asset
+  - fileID: 147
+    classID: 114
+    packedSize: 193556
+    offset: 11527864
+    sourceAssetGUID: dcedb6d9c911ed34a8fdbc9988bde5bd
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/7857cd74f7f87db47a09d8f2a4dfa22d.asset
+  - fileID: 148
+    classID: 114
+    packedSize: 308704
+    offset: 11721424
+    sourceAssetGUID: 4e41e4a8e443f244584f625b7e3e9a54
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/a57243225bd6a94408379a754932c5b6.asset
+  - fileID: 149
+    classID: 114
+    packedSize: 88064
+    offset: 12030128
+    sourceAssetGUID: a1e31cad80f69c74ea4e74e7034e877b
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/a866ec5e9ee75fa4c82d053b38ae681e.asset
+  - fileID: 150
+    classID: 114
+    packedSize: 49040
+    offset: 12118192
+    sourceAssetGUID: 37e670237b686bb4aa1a26b84a7f0316
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/a97b137fc1f9a034cb65e5363f32a4b9.asset
+  - fileID: 151
+    classID: 114
+    packedSize: 251752
+    offset: 12167232
+    sourceAssetGUID: 50cf52d3d9cede4488242b114212bc67
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/aa80eb9526dbb1d49a4d559064079f71.asset
+  - fileID: 152
+    classID: 114
+    packedSize: 103536
+    offset: 12418984
+    sourceAssetGUID: eac6fefe87c889d4e871ac50c990198e
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/bb5a8ddfe90173544b7d7e85c72ff070.asset
+  - fileID: 153
+    classID: 114
+    packedSize: 313624
+    offset: 12522520
+    sourceAssetGUID: ecfa15ab7a349e642b06fd81fd324294
+    buildTimeAssetPath: Assets/SerializedUdonPrograms/f872fb7d650af234e9f8347357b97541.asset
+  - fileID: 154
+    classID: 114
+    packedSize: 92
+    offset: 12836144
+    sourceAssetGUID: a35f2996ce6d14c4c854aba5420212ed
+    buildTimeAssetPath: Packages/com.cyan.playerobjectpool/PlayerObjectPool.prefab
+  - fileID: 155
+    classID: 114
+    packedSize: 120
+    offset: 12836240
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 156
+    classID: 114
+    packedSize: 172
+    offset: 12836360
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 157
+    classID: 114
+    packedSize: 120
+    offset: 12836536
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 158
+    classID: 114
+    packedSize: 1472
+    offset: 12836656
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 159
+    classID: 114
+    packedSize: 120
+    offset: 12838128
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 160
+    classID: 114
+    packedSize: 76
+    offset: 12838248
+    sourceAssetGUID: 428f9570384c2ab489bcbd972842494b
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Prefabs/AdvancedExamples/Player.prefab
+  - fileID: 161
+    classID: 114
+    packedSize: 6360
+    offset: 12838328
+    sourceAssetGUID: a35f2996ce6d14c4c854aba5420212ed
+    buildTimeAssetPath: Packages/com.cyan.playerobjectpool/PlayerObjectPool.prefab
+--- !u!382020655 &1557445376060343134
+PluginBuildInfo:
+  m_RuntimePlugins:
+  - Unity.Burst.Unsafe
+  - VRC.SDK3.Dynamics.PhysBone
+  - OVRPlugin
+  - YamlDotNet
+  - WatsonTcp
+  - System.Threading.Tasks.Extensions
+  - VRC.Udon.ClientBindings
+  - openvr_api
+  - portmidi
+  - VRC.Udon.VRCWrapperModules
+  - VRCSDK3
+  - VRC.Udon.VM
+  - Serilog
+  - nunit.framework
+  - SemanticVersioning
+  - librsync.net
+  - VRC.Udon.Common
+  - VRC.SDK3.Dynamics.Contact
+  - Collections.Pooled
+  - System.Collections.Immutable
+  - System.Numerics.Vectors
+  - System.Buffers
+  - VRC.Dynamics
+  - VRC.Udon.Wrapper
+  - Serilog.Sinks.File
+  - VRC.Udon.Security
+  - clipper_library
+  - SDKBase-Legacy
+  - VRC.Collections
+  - VRCSDKBase
+  - System.Runtime.CompilerServices.Unsafe
+  - vrc_image_loader
+  - libvrc_image_loader
+  - Newtonsoft.Json
+  - libopenvr_api
+  - Blake2Sharp
+  - System.Memory
+  - System.Text.Encoding.CodePages
+  - VRCCore-Editor
+  - VRC.Utility
+  - AudioPluginOculusSpatializer
+  m_EditorPlugins:
+  - ICSharpCode.SharpZipLib
+  - lmrebake
+  - VRCSDK3-Editor
+  - uvrepack
+  - Microsoft.CodeAnalysis
+  - VRC.Udon.VRCTypeResolverModules
+  - AppleEventIntegration
+  - liblz4Plastic
+  - optix_denoiser.6.0.0
+  - cudart32_91
+  - cudart64_91
+  - alphabuffergen
+  - simpleProgressBar
+  - OpenImageDenoise
+  - Unity.Plastic.Newtonsoft.Json
+  - unityplastic
+  - optix_denoiser.51
+  - tbbmalloc
+  - VRC.Udon.Compiler
+  - System.Reflection.Metadata
+  - optix.51
+  - Microsoft.CodeAnalysis.CSharp
+  - VRC.Udon.UAssembly
+  - vpm-core-lib
+  - uvgbuffergen
+  - VRC.Udon.Graph
+  - System.Text.Encodings.Web
+  - frender
+  - UnityEditor.VR
+  - 0Harmony
+  - VRC.SDK3.Dynamics.PhysBone.Editor
+  - d3dcompiler_47
+  - VRCSDKBase-Editor
+  - VRC.SDK3.Dynamics.Contact.Editor
+  - VRC.Udon.VRCGraphModules
+  - halffloat2vb
+  - optix.6.0.0
+  - log4netPlastic
+  - VRC.Udon.EditorBindings
+  - xatlasLib
+  - Microsoft.Bcl.AsyncInterfaces
+  - zlib64Plastic
+  - Unity.Plastic.Antlr3.Runtime
+  - Serilog.Sinks.Unity3D
+  - lz4x64Plastic
+  - System.Text.Json
+  - optix.1
+  - cudart64_90
+--- !u!668709126 &4523445363385582551
+BuiltAssetBundleInfoSet:
+  bundleInfos:
+  - bundleName: scene-standalonewindows64-charmraiders.vrcw
+    bundleArchiveFile: 3
+    packagedFileIndices: 000000000100000002000000
+  - bundleName: CharmRaiders
+    bundleArchiveFile: 6
+    packagedFileIndices: 05000000
+--- !u!1126 &7687123738895475951
+PackedAssets:
+  m_File: 2
+  m_ShortPath: BuildPlayer-CharmRaiders.resource
+  m_Overhead: 0
+  m_Contents:
+  - fileID: 0
+    classID: 83
+    packedSize: 3200
+    offset: 0
+    sourceAssetGUID: b0ff427b083a5ab4db4767c8a7b7adad
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/614185__bruhitybruh__car-door-smash-snare-kick.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 4128
+    offset: 0
+    sourceAssetGUID: ed2b09a4f76484a44b95a19053388655
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/182228__martian__loys-gun-cockbullet-in-isolated2.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 5184
+    offset: 0
+    sourceAssetGUID: ede542ebb66777d4990ace72283f78ec
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/Pistol-Cocking-C-www.fesliyanstudios.com-isolated2.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 5632
+    offset: 0
+    sourceAssetGUID: c8e555c3971b1a545ae52d3b7adaa6e9
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/GunFoley/182252__martian__loys-gun-cockbullet-in-clip-trimmed.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 6464
+    offset: 0
+    sourceAssetGUID: e8b508355b22ecb4fbe962658425f41d
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/Pistol-Cocking-C-www.fesliyanstudios.com-isolated1.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 6592
+    offset: 0
+    sourceAssetGUID: e12e556cc60d3ef42b2cab8177a6b4f6
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/260614__kwahmah_02__pop.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 7232
+    offset: 0
+    sourceAssetGUID: 3b8e6dd64b5d6f347ae67ff2334a9735
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/428650__jomse__grabbook2.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 7296
+    offset: 0
+    sourceAssetGUID: 4d208209b62dcf34892a938e4137ad11
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/GunFoley/182268__martian__loys-test-gun_isolated.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 11520
+    offset: 0
+    sourceAssetGUID: 81875a8bd45d10b43a461c6d8b10d5c6
+    buildTimeAssetPath: Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example
+      Scene/Resources/232135__yottasounds__splat-005(2).wav
+  - fileID: 0
+    classID: 83
+    packedSize: 11648
+    offset: 0
+    sourceAssetGUID: 1ef2f867285b04a49a046d37a70657a8
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/400687__supersnd__microwave-door-open.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 12576
+    offset: 0
+    sourceAssetGUID: 7830a1cb5e7589346abe76adb47194c7
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Dry-Empty-GunFire-A-www.fesliyanstudios.com.mp3
+  - fileID: 0
+    classID: 83
+    packedSize: 12704
+    offset: 0
+    sourceAssetGUID: 21f99459381e6474883815b9664ba03e
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/400686__supersnd__microwave-door-close.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 13056
+    offset: 0
+    sourceAssetGUID: 5a625825d3e1cc146b347539c579a475
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/GunFoley/182256__martian__foley-bullet-drop-muted.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 14240
+    offset: 0
+    sourceAssetGUID: f038aaa05b2564c4a90f55c9dacfa411
+    buildTimeAssetPath: Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example
+      Scene/Resources/118513__thefsoundman__punch_02.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 20832
+    offset: 0
+    sourceAssetGUID: 3cfc9e966007a634ba7625157ee9b41f
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Dry-Empty-GunFire-B-www.fesliyanstudios.com.mp3
+  - fileID: 0
+    classID: 83
+    packedSize: 24672
+    offset: 0
+    sourceAssetGUID: e16579afe756e85459421f037b91b22c
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/449996__djt4nn3r__whoosh_short_mid.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 29568
+    offset: 0
+    sourceAssetGUID: 87df76426569bf34c87e3359a43a1736
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Pumping-Shotgun-E-www.fesliyanstudios.com.mp3
+  - fileID: 0
+    classID: 83
+    packedSize: 30624
+    offset: 0
+    sourceAssetGUID: d556d912059ee914a97715360aa455a4
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/518850__mrickey13__item-equip.mp3
+  - fileID: 0
+    classID: 83
+    packedSize: 59712
+    offset: 0
+    sourceAssetGUID: fe407f6c662a29540aabf8238182b29a
+    buildTimeAssetPath: Assets/_GameMechanics/MMMaellon/676613__fivebrosstopmosyt__table-smash-1.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 86656
+    offset: 0
+    sourceAssetGUID: 6c22712fcd7be8744976dcbaa16fa688
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Beefy-5.56-AR15-Single-Close-GunShot-C-www.fesliyanstudios.com-www.fesliyanstudios.com.mp3
+  - fileID: 0
+    classID: 83
+    packedSize: 87392
+    offset: 0
+    sourceAssetGUID: 7be9fe459f2b89f4ca86c6b4999aee5e
+    buildTimeAssetPath: Assets/Samples/SmartObjectSync/3.0.4/SmartObjectSync Example
+      Scene/Resources/265675__stereo-surgeon__synth-stab-1.wav
+  - fileID: 0
+    classID: 83
+    packedSize: 95584
+    offset: 0
+    sourceAssetGUID: e18ff565e1108b842bd0395055fd0167
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Beefy-5.56-AR15-Single-Close-GunShot-A-www.fesliyanstudios.com-www.fesliyanstudios.com.mp3
+  - fileID: 0
+    classID: 83
+    packedSize: 96544
+    offset: 0
+    sourceAssetGUID: 2a99eb6b3c4870f449afd2307a0ed9d0
+    buildTimeAssetPath: Packages/com.mmmaellon.p-shooters/Runtime/Resources/Audio/fesliyanstudios/Beefy-5.56-AR15-Single-Close-GunShot-B-www.fesliyanstudios.com-www.fesliyanstudios.com.mp3

@@ -9,5 +9,6 @@ namespace MMMaellon
     public abstract class CharmSpawn : UdonSharpBehaviour
     {
         public abstract void SpawnCharm(ChildAttachmentState charm);
+        public abstract void ResetSpawn();
     }
 }

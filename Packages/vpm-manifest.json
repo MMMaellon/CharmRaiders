@@ -37,7 +37,7 @@
       "dependencies": {}
     },
     "com.vrchat.clientsim": {
-      "version": "1.2.4",
+      "version": "1.2.5",
       "dependencies": {
         "com.vrchat.worlds": "^3.1.x"
       }
@@ -53,7 +53,7 @@
       }
     },
     "com.mmmaellon.smartobjectsync": {
-      "version": "3.0.4",
+      "version": "3.2.0",
       "dependencies": {
         "com.vrchat.udonsharp": "1.1.X"
       }
@@ -66,7 +66,7 @@
       }
     },
     "com.mmmaellon.p-shooters": {
-      "version": "2.2.1",
+      "version": "2.4.0",
       "dependencies": {
         "com.vrchat.udonsharp": "^1.1.X",
         "com.mmmaellon.smartobjectsync": "^3.0.0",

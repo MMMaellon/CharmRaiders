@@ -289,7 +289,7 @@ namespace MMMaellon
         //FOR DESKTOP
         [HideInInspector]
         public UpgradeTracker tracker;
-        [System.NonSerialized, UdonSynced(UdonSyncMode.None)]
+        [System.NonSerialized]
         public int inventoryIndex = 0;//0 or greater means it's in the left hand, -1 or less means its in the left hand inventory
 
         [System.NonSerialized]
@@ -316,6 +316,7 @@ namespace MMMaellon
             {
                 tracker.AddToDesktopInventory(this);
             }
+            Debug.LogWarning(name + " CharmAttachment.OnEnterState");
             sync.rigid.detectCollisions = false;
         }
 
@@ -331,6 +332,7 @@ namespace MMMaellon
 
         public override void OnSmartObjectSerialize()
         {
+            sync.pos = GetTightlyPackedPosition(inventoryIndex, tracker.desktopCharms.Length);
         }
 
         public override void OnInterpolationStart()
@@ -340,17 +342,21 @@ namespace MMMaellon
             {
                 startPos = Quaternion.Inverse(sync.owner.GetRotation()) * (transform.position - sync.owner.GetPosition());
                 startRot = Quaternion.Inverse(sync.owner.GetRotation()) * (transform.rotation);
+                if (sync.owner.isLocal)
+                {
+                    offset = CalcOffset();
+                    sync.pos = GetTightlyPackedPosition(inventoryIndex, tracker.desktopCharms.Length);
+                }
             }
-            offset = CalcOffset();
-            calcedZPlane = GetTightlyPackedPosition(inventoryIndex, tracker.desktopCharms.Length);
         }
 
         public override void Interpolate(float interpolation)
         {
+            sync.parentPos = sync.owner.GetPosition();
             if (Utilities.IsValid(sync.owner))
             {
                 float slowerInterpolation = tracker.inventoryInterpolationTime <= 0 ? 1.0f : Mathf.Clamp01((Time.timeSinceLevelLoad - interpolationStart) / tracker.inventoryInterpolationTime);
-                transform.position = sync.HermiteInterpolatePosition(sync.owner.GetPosition() + sync.owner.GetRotation() * startPos, Vector3.zero, CalcPos(), Vector3.zero, slowerInterpolation);
+                transform.position = sync.HermiteInterpolatePosition(sync.parentPos + sync.owner.GetRotation() * startPos, Vector3.zero, CalcPos(sync.IsLocalOwner()), Vector3.zero, slowerInterpolation);
                 transform.rotation = sync.HermiteInterpolateRotation(sync.owner.GetRotation() * startRot, Vector3.zero, CalcRot(), Vector3.zero, slowerInterpolation);
                 if (sync.IsLocalOwner())
                 {
@@ -370,17 +376,16 @@ namespace MMMaellon
             return true;
         }
         VRCPlayerApi.TrackingData data;
-        Vector3 calcedZPlane;
-        public Vector3 CalcPos()
+        public Vector3 CalcPos(bool calcAsOwner)
         {
-            if (sync.IsLocalOwner())
+            if (calcAsOwner)
             {
                 data = sync.owner.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
                 return data.position + (data.rotation * tracker.desktopInventoryPlacement) + (sync.owner.GetRotation() * offset);
             } else if(Utilities.IsValid(sync.owner))
             {
                 data = sync.owner.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
-                return Vector3.Lerp(sync.owner.GetPosition(), data.position, 0.5f) + sync.owner.GetRotation() * calcedZPlane;
+                return Vector3.Lerp(sync.owner.GetPosition(), data.position, 0.5f) + sync.owner.GetRotation() * sync.pos;
             }
             return transform.position;
         }
@@ -414,7 +419,7 @@ namespace MMMaellon
         {
             if (index == 0 || totalCount == 0)
             {
-                return Vector3.zero;
+                return Vector3.back * tracker.desktopInventorySpacing;
             }
             //Forumla uses triangle numbers and concentric circles
             //there's a single object at Vector3.zero which makes the inner most circle
