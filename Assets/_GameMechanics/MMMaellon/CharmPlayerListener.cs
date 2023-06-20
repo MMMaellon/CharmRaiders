@@ -7,7 +7,7 @@ namespace MMMaellon
 {
 
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
-    public class CharmPlayerListener : PlayerListener
+    public class CharmPlayerListener : P_Shooters.PlayerListener
     {
         public float respawnInvincibilityTime = 3f;
         public AudioSource receiveDamageAudio;
@@ -16,9 +16,9 @@ namespace MMMaellon
 
         [System.NonSerialized]
         public float[] respawnTimes;
-        public ResourceManager armorResource;
-        public ResourceManager armorPenetrationResource;
-        public ResourceManager damageBoostResource;
+        public P_Shooters.ResourceManager armorResource;
+        public P_Shooters.ResourceManager armorPenetrationResource;
+        public P_Shooters.ResourceManager damageBoostResource;
         void Start()
         {
             respawnTimes = new float[playerHandler.players.Length];
@@ -28,7 +28,7 @@ namespace MMMaellon
             }
         }
 
-        public override bool CanDealDamage(Player attacker, Player receiver)
+        public override bool CanDealDamage(P_Shooters.Player attacker, P_Shooters.Player receiver)
         {
             if (gameObject.activeInHierarchy && respawnTimes[receiver.id] + respawnInvincibilityTime >= Time.timeSinceLevelLoad)
             {
@@ -37,7 +37,7 @@ namespace MMMaellon
             return true;
         }
 
-        public override void OnDecreaseHealth(Player attacker, Player receiver, int value)
+        public override void OnDecreaseHealth(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
         {
             if (gameObject.activeInHierarchy)
             {
@@ -58,7 +58,7 @@ namespace MMMaellon
                 }
             }
         }
-        public override void OnDecreaseShield(Player attacker, Player receiver, int value)
+        public override void OnDecreaseShield(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
         {
             if (gameObject.activeInHierarchy)
             {
@@ -81,7 +81,7 @@ namespace MMMaellon
             }
         }
 
-        public override void OnMinHealth(Player attacker, Player receiver, int value)
+        public override void OnMinHealth(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
         {
             if (gameObject.activeInHierarchy && receiver.IsOwnerLocal())
             {
@@ -92,7 +92,7 @@ namespace MMMaellon
             }
         }
 
-        public override void OnReceiveNormalKillConfirmation(Player attacker)
+        public override void OnReceiveNormalKillConfirmation(P_Shooters.Player attacker)
         {
             if (gameObject.activeInHierarchy && Utilities.IsValid(onKillConfirmedAudio))
             {
@@ -104,7 +104,7 @@ namespace MMMaellon
         int armor;
         int armorPenetration;
         int damageBoost;
-        public override int AdjustDamage(Player attacker, Player receiver, int value)
+        public override int AdjustDamage(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
         {
             if (gameObject.activeInHierarchy)
             {

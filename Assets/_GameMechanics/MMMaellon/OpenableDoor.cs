@@ -105,7 +105,7 @@ namespace MMMaellon{
         int damage;
         public void OnParticleCollision(GameObject other)
         {
-            P_Shooter shooter = other.GetComponentInParent<P_Shooter>();
+            P_Shooters.P_Shooter shooter = other.GetComponentInParent<P_Shooters.P_Shooter>();
             if (!Utilities.IsValid(shooter) || !shooter.sync.IsLocalOwner())
             {
                 return;
@@ -164,9 +164,11 @@ namespace MMMaellon{
                     lowestPoint.y = nextLowestPoint.y;
                 }
             }
+            charm.Attach(objectParent);
             charm.transform.rotation = objectParent.rotation;
             charm.transform.position = objectParent.position + (Vector3.up * Vector3.Distance(objectParent.position, lowestPoint));
-            charm.Attach(objectParent);
+            charm.sync.pos = (Vector3.up * Vector3.Distance(objectParent.position, lowestPoint));
+            charm.sync.rot = Quaternion.identity;
             SendCustomEventDelayedFrames(nameof(ReCheckLowestPoint), 1);
         }
 

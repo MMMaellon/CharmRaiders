@@ -9,20 +9,22 @@ namespace MMMaellon
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class HamsterBallPickup : Upgrade
     {
+        public HamsterBall hamsterBallEffect;
         public int armor = 10;
         public override void StartUpgrade()
         {
-            player.eventAnimator.SetFloat("HamsterBall", 1);
+            hamsterBallEffect.player = player;
+            hamsterBallEffect.enabled = true;
             if(player != null && player.IsOwnerLocal()){
-                charm.tracker.charmListener.armorResource.ChangeValue(player, armor);
+                bagSetter.tracker.charmListener.armorResource.ChangeValue(player, armor);
             }
         }
 
         public override void StopUpgrade()
         {
-            player.eventAnimator.SetFloat("HamsterBall", 0);
+            hamsterBallEffect.player = null;
             if(player != null && player.IsOwnerLocal()){
-                charm.tracker.charmListener.armorResource.ChangeValue(player, -armor);
+                bagSetter.tracker.charmListener.armorResource.ChangeValue(player, -armor);
             }
         }
         public override void UpgradeLoop()

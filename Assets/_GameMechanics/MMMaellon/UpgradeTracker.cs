@@ -29,12 +29,13 @@ namespace MMMaellon
                     serialized.FindProperty("upgrades").InsertArrayElementAtIndex(i);
                     serialized.FindProperty("upgrades").GetArrayElementAtIndex(i).objectReferenceValue = upgrades[i];
                     SerializedObject serializedUpgrade = new SerializedObject(upgrades[i]);
-                    if (upgrades[i].GetComponent<CharmAttachment>())
+                    if (upgrades[i].GetComponent<BagChildAttachmentSetter>())
                     {
-                        SerializedObject serializedCharm = new SerializedObject(upgrades[i].GetComponent<CharmAttachment>());
-                        serializedCharm.FindProperty("tracker").objectReferenceValue = upgradeTracker;
-                        serializedCharm.ApplyModifiedProperties();
-                        serializedUpgrade.FindProperty("charm").objectReferenceValue = upgrades[i].GetComponent<CharmAttachment>();
+                        SerializedObject serializedBagSetter = new SerializedObject(upgrades[i].GetComponent<BagChildAttachmentSetter>());
+                        serializedBagSetter.FindProperty("tracker").objectReferenceValue = upgradeTracker;
+                        serializedBagSetter.ApplyModifiedProperties();
+                        serializedUpgrade.FindProperty("bagSetter").objectReferenceValue = upgrades[i].GetComponent<BagChildAttachmentSetter>();
+                        serializedUpgrade.FindProperty("tracker").objectReferenceValue = upgradeTracker;
                     }
                     serializedUpgrade.ApplyModifiedProperties();
                     upgrades[i].AddPriceTag();
@@ -43,12 +44,12 @@ namespace MMMaellon
                 foreach (CharmPool charmPool in charmPools)
                 {
                     SerializedObject serializedPool = new SerializedObject(charmPool);
-                    serializedPool.FindProperty("charms").ClearArray();
+                    serializedPool.FindProperty("children").ClearArray();
                     ChildAttachmentState[] charmChildren = charmPool.GetComponentsInChildren<ChildAttachmentState>();
                     for (int i = 0; i < charmChildren.Length; i++)
                     {
-                        serializedPool.FindProperty("charms").InsertArrayElementAtIndex(i);
-                        serializedPool.FindProperty("charms").GetArrayElementAtIndex(i).objectReferenceValue = charmChildren[i];
+                        serializedPool.FindProperty("children").InsertArrayElementAtIndex(i);
+                        serializedPool.FindProperty("children").GetArrayElementAtIndex(i).objectReferenceValue = charmChildren[i];
                     }
                     serializedPool.ApplyModifiedProperties();
                 }
@@ -89,7 +90,7 @@ namespace MMMaellon
     public class UpgradeTracker : SmartObjectSyncListener
     {
         public Cyan.PlayerObjectPool.CyanPlayerObjectAssigner playerObjectAssigner;
-        public P_ShootersPlayerHandler playerHandler;
+        public P_Shooters.P_ShootersPlayerHandler playerHandler;
         public CharmPlayerListener charmListener;
         public CharmPool[] charmPools;
         [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(upgradesEnabled))]
@@ -105,14 +106,11 @@ namespace MMMaellon
                 }
             }
         }
-        [HideInInspector]
         public Upgrade[] upgrades;
         [System.NonSerialized]
         public VRC.SDK3.Data.DataList activeUpgradeList = new VRC.SDK3.Data.DataList();
         [System.NonSerialized]
         public VRC.SDK3.Data.DataList activeLoopingUpgradeList = new VRC.SDK3.Data.DataList();
-        [System.NonSerialized]
-        public CharmAttachment[] desktopCharms = new CharmAttachment[0];
         [System.NonSerialized]
         public Upgrade[] activeLoopingUpgradeListArray = new Upgrade[0];
         [System.NonSerialized]
@@ -121,34 +119,20 @@ namespace MMMaellon
         public override void OnChangeOwner(SmartObjectSync sync, VRCPlayerApi oldOwner, VRCPlayerApi newOwner)
         {
             currentUpgrade = sync.GetComponent<Upgrade>();
-            if (!Utilities.IsValid(currentUpgrade) || !currentUpgrade.isUpgrading || oldOwner == newOwner)
+            if (!Utilities.IsValid(currentUpgrade) || oldOwner == newOwner)
             {
                 return;
             }
-            if (Utilities.IsValid(oldOwner) && oldOwner.isLocal)
+            if (sync.IsHeld() || (Utilities.IsValid(sync.transform.parent) && Utilities.IsValid(sync.transform.parent.GetComponent<Bag>())))
             {
-                RemoveUpgrade(currentUpgrade);
-            } else if(sync.IsLocalOwner())
+                currentUpgrade.player = playerObjectAssigner._GetPlayerPooledObject(sync.owner).GetComponent<Player>();
+            } else
             {
-                AddUpgrade(currentUpgrade);
+                currentUpgrade.player = null;
             }
-            currentUpgrade.StopUpgrade();
-            playerObject = playerObjectAssigner._GetPlayerPooledObject(newOwner);
-            if (!Utilities.IsValid(playerObject))
-            {
-                if (sync.IsLocalOwner())
-                {
-                    sync.customState.ExitState();
-                    //force drop
-                }
-                return;
-            }
-            currentUpgrade.player = playerObject.GetComponent<Player>();
-            currentUpgrade.StartUpgrade();
         }
 
         Upgrade currentUpgrade;
-        CharmAttachment currentCharm;
 
         public float weightCurve = 5f;
         public float baseRunSpeed = 12;
@@ -167,51 +151,28 @@ namespace MMMaellon
                 Networking.LocalPlayer.SetWalkSpeed((baseWalkSpeed * weightCurve) / (weight + weightCurve));
             }
         }
-        CharmAttachment currentState;
         GameObject playerObject;
+        Player localPlayer;
         public override void OnChangeState(SmartObjectSync sync, int oldState, int newState)
         {
-            if (sync.IsAttachedToPlayer() || (Utilities.IsValid(sync.customState) && sync.customState.GetUdonTypeName() == "MMMaellon.CharmAttachment"))
+            if (sync.IsHeld() || (Utilities.IsValid(sync.transform.parent) && Utilities.IsValid(sync.transform.parent.GetComponent<Bag>())))
             {
                 currentUpgrade = sync.GetComponent<Upgrade>();
-                if (!Utilities.IsValid(currentUpgrade) || currentUpgrade.isUpgrading)
+                if (!Utilities.IsValid(currentUpgrade))
                 {
                     return;
                 }
-                playerObject = playerObjectAssigner._GetPlayerPooledObject(sync.owner);
-                if (!Utilities.IsValid(playerObject))
-                {
-                    if (sync.IsLocalOwner())
-                    {
-                        sync.customState.ExitState();
-                        //force drop
-                    }
-                    return;
-                }
-                currentUpgrade.player = playerObject.GetComponent<Player>();
-                if (sync.IsLocalOwner())
-                {
-                    AddUpgrade(currentUpgrade);
-                }
-                currentUpgrade.isUpgrading = true;
-                currentUpgrade.StartUpgrade();
+                currentUpgrade.player = playerObjectAssigner._GetPlayerPooledObject(sync.owner).GetComponent<Player>();
             }
-            else if(oldState < SmartObjectSync.STATE_SLEEPING || oldState > SmartObjectSync.STATE_FALLING)//includes checks that it's not teleporting and interpolating
+            else if(oldState > SmartObjectSync.STATE_FALLING)//includes checks that it's not teleporting and interpolating
             {
                 currentUpgrade = sync.GetComponent<Upgrade>();
-                if (!Utilities.IsValid(currentUpgrade) || !currentUpgrade.isUpgrading)
+                if (!Utilities.IsValid(currentUpgrade))
                 {
                     return;
                 }
-                if (sync.IsLocalOwner())
-                {
-                    RemoveUpgrade(currentUpgrade);
-                }
-                currentUpgrade.StopUpgrade();
                 currentUpgrade.player = null;
-                currentUpgrade.isUpgrading = false;
             }
-
         }
 
         public void AddUpgrade(Upgrade upgrade)
@@ -258,7 +219,7 @@ namespace MMMaellon
         {
             foreach (Upgrade upgrade in upgrades)
             {
-                upgrade.charm.sync.AddListener(this);
+                upgrade.bagSetter.child.sync.AddListener(this);
             }
             weight = weight;
             Networking.LocalPlayer.SetJumpImpulse(4);
@@ -267,13 +228,6 @@ namespace MMMaellon
         public int selectedIndex = 0;
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                if (selectedIndex >= 0 && selectedIndex < desktopCharms.Length)
-                {
-                    desktopCharms[selectedIndex].ExitState();
-                }
-            }
             if (!Utilities.IsValid(activeLoopingUpgradeListArray) || activeLoopingUpgradeListArray.Length == 0)
             {
                 return;
@@ -304,22 +258,15 @@ namespace MMMaellon
             }
         }
 
-        public void ExplodeUpgrades()
+        public void ClearUpgrades()
         {
-            //clear it so we don't need to repeatedly recreate this thing
-            foreach (VRC.SDK3.Data.DataToken desktopCharm in desktopCharms)
-            {
-                currentCharm = (CharmAttachment) desktopCharm.Reference;
-                currentCharm.transform.position += currentCharm.transform.rotation * (currentCharm.sync.pos);
-            }
-            desktopCharms = new CharmAttachment[0];
-            foreach (VRC.SDK3.Data.DataToken upgradeToken in activeUpgradeList.ToArray())
-            {
-                currentUpgrade = (Upgrade)upgradeToken.Reference;
-                currentUpgrade.charm.sync.rigid.velocity = (currentUpgrade.transform.position - currentUpgrade.charm.sync.parentPos).normalized * explodeVelocity;
-                currentUpgrade.charm.sync.rigid.angularVelocity = currentUpgrade.charm.sync.rigid.velocity;
-                currentUpgrade.charm.sync.state = SmartObjectSync.STATE_FALLING;
-            }
+            // foreach (VRC.SDK3.Data.DataToken upgradeToken in activeUpgradeList.ToArray())
+            // {
+            //     currentUpgrade = (Upgrade)upgradeToken.Reference;
+            //     currentUpgrade.bagSetter.child.sync.rigid.velocity = (currentUpgrade.transform.position - currentUpgrade.bagSetter.child.sync.parentPos).normalized * explodeVelocity;
+            //     currentUpgrade.bagSetter.child.sync.rigid.angularVelocity = currentUpgrade.bagSetter.child.sync.rigid.velocity;
+            //     currentUpgrade.bagSetter.child.sync.state = SmartObjectSync.STATE_FALLING;
+            // }
             activeLoopingUpgradeList.Clear();
             activeLoopingUpgradeListArray = new Upgrade[0];
             activeUpgradeList.Clear();
@@ -328,62 +275,13 @@ namespace MMMaellon
         public Vector3 desktopInventoryPlacement = new Vector3(0, -0.25f, 0.5f);
         public float inventorySpacing = 0.05f;
         public float desktopInventorySpacing = 0.25f;
-        [System.NonSerialized]
-        public float inventoryOffset = 0.25f;
-        CharmAttachment[] tempArray;
-        public void AddToDesktopInventory(CharmAttachment charm)
-        {
-            if (charm)
-            {
-                charm.sync.TakeOwnership(false);
-                charm.inventoryIndex = desktopCharms.Length;
-                tempArray = new CharmAttachment[desktopCharms.Length + 1];
-                for (int i = 0; i < desktopCharms.Length; i++)
-                {
-                    //restart interpolation
-                    desktopCharms[i].inventoryIndex = i;
-                    tempArray[i] = desktopCharms[i];
-                }
-                tempArray[desktopCharms.Length] = charm;
-                desktopCharms = tempArray;
-                foreach (CharmAttachment c in desktopCharms)
-                {
-                    c.sync.Serialize();
-                    c.sync.OnInterpolationStart();
-                }
-            }
-        }
-        public void RemoveFromDesktopInventory(int index)
-        {
-            if (index >= 0 && index < desktopCharms.Length)
-            {
-                tempArray = new CharmAttachment[desktopCharms.Length - 1];
-                for (int i = 0; i < desktopCharms.Length; i++)
-                {
-                    if (i < index)
-                    {
-                        tempArray[i] = desktopCharms[i];
-                    }
-                    else if (i > index)
-                    {
-                        desktopCharms[i].inventoryIndex = i - 1;
-                        tempArray[i - 1] = desktopCharms[i];
-                    }
-                }
-                desktopCharms = tempArray;
-                foreach (CharmAttachment c in desktopCharms)
-                {
-                    c.sync.Serialize();
-                    c.sync.OnInterpolationStart();
-                }
-            }
-        }
 
         public override void OnPlayerRespawn(VRCPlayerApi player)
         {
             if (Utilities.IsValid(player) && player.isLocal)
             {
-                ExplodeUpgrades();
+                ClearUpgrades();
+                ((Player)playerHandler.localPlayer).bag.ExplodeChildren(false);
             }
         }
     }
