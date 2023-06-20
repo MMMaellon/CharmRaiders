@@ -49,7 +49,7 @@ namespace MMMaellon
             if (Utilities.IsValid(player))
             {
                 transform.rotation = lastRot;
-                radius = player.capsuleCollider.height / 2f / transform.parent.lossyScale.x;//half distance to get radius, multiplied by 8/7 ratio for an average 7 heads proportioned body
+                radius = 1.5f *  player.capsuleCollider.height / 2f / transform.parent.lossyScale.x;//half distance to get radius, multiplied by a ratio so it's bigger than the player's avatar
                 if (radius == 0 || lastEnable == 0)
                 {
                     return;

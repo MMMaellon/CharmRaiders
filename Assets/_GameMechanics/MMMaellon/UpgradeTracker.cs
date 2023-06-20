@@ -146,31 +146,34 @@ namespace MMMaellon
             set
             {
                 _weight = value;
-                Networking.LocalPlayer.SetRunSpeed((baseRunSpeed * weightCurve) / (weight + weightCurve));
-                Networking.LocalPlayer.SetStrafeSpeed((baseRunSpeed * weightCurve) / (weight + weightCurve));
-                Networking.LocalPlayer.SetWalkSpeed((baseWalkSpeed * weightCurve) / (weight + weightCurve));
+                Networking.LocalPlayer.SetRunSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
+                Networking.LocalPlayer.SetStrafeSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
+                Networking.LocalPlayer.SetWalkSpeed((baseWalkSpeed * weightCurve) / (_weight + weightCurve));
             }
         }
         GameObject playerObject;
         Player localPlayer;
         public override void OnChangeState(SmartObjectSync sync, int oldState, int newState)
         {
-            if (sync.IsHeld() || (Utilities.IsValid(sync.transform.parent) && Utilities.IsValid(sync.transform.parent.GetComponent<Bag>())))
+            currentUpgrade = sync.GetComponent<Upgrade>();
+            if (!Utilities.IsValid(currentUpgrade))
             {
-                currentUpgrade = sync.GetComponent<Upgrade>();
-                if (!Utilities.IsValid(currentUpgrade))
-                {
-                    return;
-                }
-                currentUpgrade.player = playerObjectAssigner._GetPlayerPooledObject(sync.owner).GetComponent<Player>();
+                return;
             }
-            else if(oldState > SmartObjectSync.STATE_FALLING)//includes checks that it's not teleporting and interpolating
+            if (sync.IsHeld())
             {
-                currentUpgrade = sync.GetComponent<Upgrade>();
-                if (!Utilities.IsValid(currentUpgrade))
+                currentUpgrade.player = playerObjectAssigner._GetPlayerPooledObject(sync.owner).GetComponent<Player>();
+            } else if (Utilities.IsValid(sync.transform.parent) && Utilities.IsValid(sync.transform.parent.GetComponent<Bag>()))
+            {
+                if (sync.IsLocalOwner())
                 {
-                    return;
+                    currentUpgrade.player = playerObjectAssigner._GetPlayerPooledObject(sync.owner).GetComponent<Player>();
+                    sync.transform.parent.GetComponent<Bag>().backpackAttachment.sync.StartInterpolation();
                 }
+                //for non-localowners we handle it in Ondeserialize for the bag setter
+            }
+            else
+            {
                 currentUpgrade.player = null;
             }
         }
@@ -197,8 +200,10 @@ namespace MMMaellon
         int listCount = 0;
         public void RemoveUpgrade(Upgrade upgrade)
         {
+            Debug.LogWarning("Remove Upgrade");
             if (activeUpgradeList.Contains(upgrade))
             {
+                Debug.LogWarning("Remove Upgrade -- it contains");
                 weight = weight - upgrade.weight;
                 activeUpgradeList.Remove(upgrade);
                 listCount = activeLoopingUpgradeList.Count;
@@ -260,26 +265,36 @@ namespace MMMaellon
 
         public void ClearUpgrades()
         {
-            // foreach (VRC.SDK3.Data.DataToken upgradeToken in activeUpgradeList.ToArray())
-            // {
-            //     currentUpgrade = (Upgrade)upgradeToken.Reference;
-            //     currentUpgrade.bagSetter.child.sync.rigid.velocity = (currentUpgrade.transform.position - currentUpgrade.bagSetter.child.sync.parentPos).normalized * explodeVelocity;
-            //     currentUpgrade.bagSetter.child.sync.rigid.angularVelocity = currentUpgrade.bagSetter.child.sync.rigid.velocity;
-            //     currentUpgrade.bagSetter.child.sync.state = SmartObjectSync.STATE_FALLING;
-            // }
             activeLoopingUpgradeList.Clear();
             activeLoopingUpgradeListArray = new Upgrade[0];
             activeUpgradeList.Clear();
+            weight = 0;
         }
         public float inventoryInterpolationTime = 0.25f;
         public Vector3 desktopInventoryPlacement = new Vector3(0, -0.25f, 0.5f);
         public float inventorySpacing = 0.05f;
         public float desktopInventorySpacing = 0.25f;
 
+        VRC_Pickup currentPickup;
         public override void OnPlayerRespawn(VRCPlayerApi player)
         {
             if (Utilities.IsValid(player) && player.isLocal)
             {
+                currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.Left);
+                if (Utilities.IsValid(currentPickup))
+                {
+                    currentPickup.Drop();
+                }
+                currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.None);
+                if (Utilities.IsValid(currentPickup))
+                {
+                    currentPickup.Drop();
+                }
+                currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.Right);
+                if (Utilities.IsValid(currentPickup))
+                {
+                    currentPickup.Drop();
+                }
                 ClearUpgrades();
                 ((Player)playerHandler.localPlayer).bag.ExplodeChildren(false);
             }

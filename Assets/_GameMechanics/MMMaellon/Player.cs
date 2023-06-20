@@ -12,14 +12,14 @@ namespace MMMaellon
         public override void _OnOwnerSet()
         {
             base._OnOwnerSet();
-            bag.playerBackAttachment.sync.rigid.detectCollisions = Owner != null && Owner.isLocal;
+            bag.backpackAttachment.sync.rigid.detectCollisions = Owner != null && Owner.isLocal;
             if (Owner != null && Owner.isLocal)
             {
                 Networking.SetOwner(Networking.LocalPlayer, bag.gameObject);
-                bag.playerBackAttachment.EnterState();
-                bag.playerBackAttachment.sync.RequestSerialization();
+                bag.backpackAttachment.EnterState();
+                bag.backpackAttachment.sync.RequestSerialization();
             }
-            bag.playerBackAttachment.sync.StartInterpolation();
+            bag.backpackAttachment.sync.StartInterpolation();
         }
         public override void _OnCleanup()
         {

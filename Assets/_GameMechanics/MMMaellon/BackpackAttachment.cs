@@ -18,9 +18,9 @@ namespace MMMaellon
         Vector3 targetOffset;
         public float horizontalThreshold = 15f;
         public float horizontalThresholdSmoothing = 0.9f;
-        public Vector3 backpackOffset = new Vector3(0.1f, 0, -0.25f);
+        public Vector3 backpackOffset = new Vector3(0.15f, -0.15f, -0.4f);
         public Vector3 desktopPickupOffset = new Vector3(0, 0, 0.5f);
-        public Quaternion rotationOffset = Quaternion.Euler(-90, 0, 0);
+        public Quaternion rotationOffset = Quaternion.Euler(90, 0, 0);
         VRCPlayerApi _localPlayer;
         float lastAttach = -1001f;
         Transform startParent;
@@ -44,8 +44,6 @@ namespace MMMaellon
                 bodyRotation = sync.owner.GetRotation();
                 headData = sync.owner.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
             }
-            // sync.startPos = headData.position + bodyRotation * backpackOffset;
-            // sync.startRot = bodyRotation * rotationOffset;
             if (parentPlayer.IsOwnerLocal())
             {
                 EnterState();
@@ -140,9 +138,13 @@ namespace MMMaellon
         public LayerMask bagLayer = 1 << 22;
         public override void Interpolate(float interpolation)
         {
-            bodyRotation = sync.owner.GetRotation();
-            headData = sync.owner.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
-            if (!sync.IsLocalOwner())
+            if (!Utilities.IsValid(parentPlayer.Owner))
+            {
+                return;
+            }
+            headData = parentPlayer.Owner.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
+            bodyRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(parentPlayer.Owner.GetRotation() * Vector3.forward, Vector3.Slerp(headData.rotation * Vector3.up, Vector3.up, 0.25f)));
+            if (!parentPlayer.IsOwnerLocal())
             {
                 transform.position = sync.HermiteInterpolatePosition(sync.startPos, Vector3.zero, headData.position + bodyRotation * backpackOffset, Vector3.zero, interpolation);
                 transform.rotation = sync.HermiteInterpolateRotation(sync.startRot, Vector3.zero, bodyRotation * rotationOffset, Vector3.zero, interpolation);
@@ -151,6 +153,7 @@ namespace MMMaellon
 
             if (Input.GetKey(shortcut) != desktopPickup)
             {
+                Debug.LogWarning("shortcut");
                 lastPosition = headData.position + bodyRotation * desktopPickupOffset;
                 OnEnterState();//basically restart the lerp
                 desktopPickup = Input.GetKey(shortcut);
@@ -169,6 +172,7 @@ namespace MMMaellon
             smootherInterpolation = (Time.timeSinceLevelLoad - lastShortcutTime) / localLerpTime;
             if (desktopPickup)
             {
+                bodyRotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(parentPlayer.Owner.GetRotation() * Vector3.forward, Vector3.up));
                 targetVector = Quaternion.Inverse(bodyRotation) * (lastPosition - headData.position);
                 targetAngle = Vector3.SignedAngle(Vector3.ProjectOnPlane(desktopPickupOffset, Vector3.up), Vector3.ProjectOnPlane(targetVector, Vector3.up), Vector3.up);
                 if (targetAngle < -horizontalThreshold)
@@ -226,7 +230,7 @@ namespace MMMaellon
 
         public override bool OnInterpolationEnd()
         {
-            return !Utilities.IsValid(parentPlayer.Owner) || parentPlayer.Owner.isLocal || !Networking.IsObjectReady(gameObject);
+            return !Utilities.IsValid(parentPlayer.Owner) || parentPlayer.Owner.isLocal || !Networking.IsObjectReady(gameObject) || !Networking.IsClogged;
         }
 
         public void Reposition()

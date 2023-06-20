@@ -30,14 +30,17 @@ namespace MMMaellon
         public UpgradeTracker tracker;
         [System.NonSerialized, FieldChangeCallback(nameof(player))]
         public Player _player;
+        public bool playerChanged = false;
         public Player player{
-            get => player;
+            get => _player;
             set
             {
                 if (_player != value)
                 {
+                    playerChanged = true;
                     if (Utilities.IsValid(_player))
                     {
+                        StopUpgrade();
                         if (_player.IsOwnerLocal())
                         {
                             tracker.RemoveUpgrade(this);
@@ -57,8 +60,21 @@ namespace MMMaellon
                     {
                         bagSetter.child.sync.rigid.detectCollisions = true;
                     }
+                } else
+                {
+                    playerChanged = false;
                 }
                 _player = value;
+                if (playerChanged)
+                {
+                    if (value)
+                    {
+                        StartUpgrade();
+                    } else
+                    {
+                        //we want to run stop upgrade while player is defined so we do it up there
+                    }
+                }
             }
 
         }

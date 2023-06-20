@@ -8,9 +8,9 @@ using VRC.SDK3.Data;
 namespace MMMaellon
 {
     [RequireComponent(typeof(BackpackAttachment))]
-    public class Bag : SmartObjectSyncListener
+    public class Bag : UdonSharpBehaviour
     {
-        public BackpackAttachment playerBackAttachment;
+        public BackpackAttachment backpackAttachment;
         public Player player;
         public Animator animator;
         public float explodeVelocity = 5f;
@@ -33,6 +33,10 @@ namespace MMMaellon
             foreach (ChildAttachmentState child in GetComponentsInChildren<ChildAttachmentState>())
             {
                 child.sync.rigid.detectCollisions = true;
+            }
+            if (!_localplayer.IsUserInVR())
+            {
+                GetComponent<VRC_Pickup>().pickupable = false;
             }
         }
 
@@ -76,23 +80,6 @@ namespace MMMaellon
                 child.sync.rigid.angularVelocity = child.sync.rigid.velocity;
                 child.ExitState();
             }
-        }
-
-        public override void OnChangeState(SmartObjectSync sync, int oldState, int newState)
-        {
-            if (sync.transform.parent == transform)
-            {
-                sync.rigid.detectCollisions = false;
-            } else
-            {
-                sync.rigid.detectCollisions = true;
-                sync.RemoveListener(this);
-            }
-        }
-
-        public override void OnChangeOwner(SmartObjectSync sync, VRCPlayerApi oldOwner, VRCPlayerApi newOwner)
-        {
-
         }
     }
 }

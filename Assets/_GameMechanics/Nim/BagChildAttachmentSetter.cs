@@ -16,64 +16,60 @@ namespace MMMaellon
         public ChildAttachmentState child;
         Bag lastBag = null;
         public UpgradeTracker tracker;
-        public void OnTriggerEnter(Collider other)
-        {
-            if(Networking.LocalPlayer.IsUserInVR()){
-                if (lastBag == null && Utilities.IsValid(other) && other.gameObject.layer == bagLayer)
-                {
-                    lastBag = other.GetComponent<Bag>();
-                }
-            }
-        }
-
-        public void OnTriggerExit(Collider other)
-        {
-            if(Networking.LocalPlayer.IsUserInVR()){
-                if (Utilities.IsValid(lastBag) && Utilities.IsValid(other) && lastBag.gameObject == other.gameObject)
-                {
-                    lastBag = null;
-                }
-            }
-        }
 
         RaycastHit[] raycasts = new RaycastHit[16];
         int size = 0;
         VRCPlayerApi.TrackingData headData;
         public LayerMask bagLayer = 1 << 22;
 
-
-        public override void OnPickup()
-        {
-            lastBag = null;
-        }
-
         GameObject playerObject;
         Player localPlayer;
+        BoxCollider boxCol;
+        int colSize;
+        Collider[] colliders = new Collider[16];
+        Vector3 bagClosest;
+        Vector3 thisClosest;
         public override void OnDrop()
         {
-            if (Networking.LocalPlayer.IsUserInVR())
+            playerObject = tracker.playerObjectAssigner._GetPlayerPooledObject(Networking.LocalPlayer);
+            if (Utilities.IsValid(playerObject))
             {
-                if (Utilities.IsValid(lastBag))
+                localPlayer = playerObject.GetComponent<Player>();
+                if (!Utilities.IsValid(localPlayer))
                 {
-                    if (lastBag.gameObject.activeSelf)
-                    {
-                        child.Attach(lastBag.transform);
-                    }
+                    return;
                 }
-            } else
-            {
-                playerObject = tracker.playerObjectAssigner._GetPlayerPooledObject(Networking.LocalPlayer);
-                if (Utilities.IsValid(playerObject))
+                if (Networking.LocalPlayer.IsUserInVR())
                 {
-                    localPlayer = playerObject.GetComponent<Player>();
-                    if (Utilities.IsValid(localPlayer) && localPlayer.bag.playerBackAttachment.hasRaycastPos)
+                    boxCol = localPlayer.bag.GetComponent<BoxCollider>();
+                    bagClosest = boxCol.ClosestPoint(transform.position);
+                    thisClosest = child.sync.rigid.GetComponent<Collider>().ClosestPoint(localPlayer.bag.transform.position);
+                    if (Vector3.Distance(bagClosest, transform.position) < Vector3.Distance(thisClosest, transform.position))
+                    {
+                        //we are overlapping
+                        child.Attach(localPlayer.bag.transform);
+                        child.sync.pos = child.sync.startPos;
+                        child.sync.rot = child.sync.startRot;
+                    }
+                } else
+                {
+                    if (localPlayer.bag.backpackAttachment.hasRaycastPos)
                     {
                         child.Attach(localPlayer.bag.transform);
-                        child.sync.pos = localPlayer.bag.transform.InverseTransformPoint(localPlayer.bag.playerBackAttachment.raycastPos);
+                        child.sync.pos = localPlayer.bag.transform.InverseTransformPoint(localPlayer.bag.backpackAttachment.raycastPos);
+                        child.sync.rot = child.sync.startRot;
                     }
                 }
             }
-            lastBag = null;
+        }
+
+        public override void OnDeserialization()
+        {
+            if (Utilities.IsValid(transform.parent) && Utilities.IsValid(transform.parent.GetComponent<Bag>()))
+            {
+                GetComponent<Upgrade>().player = tracker.playerObjectAssigner._GetPlayerPooledObject(child.sync.owner).GetComponent<Player>();
+                transform.parent.GetComponent<Bag>().backpackAttachment.sync.StartInterpolation();
+            }
         }
 
 #if !COMPILER_UDONSHARP && UNITY_EDITOR
