@@ -11,7 +11,7 @@ namespace MMMaellon
     {
         public float spawnChance = 0.5f;
         public CharmSpawn[] spawns = new CharmSpawn[0];
-        public ChildAttachmentState[] children = new ChildAttachmentState[0];
+        public Charm[] charms = new Charm[0];
         OpenableDoor door;
         int unspawnedIndex;
         [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(spawnedCharms))]
@@ -24,11 +24,12 @@ namespace MMMaellon
                 _spawnedCharms = value;
                 for (int i = 0; i < _spawnedCharms.Length; i++)
                 {
-                    if(!_spawnedCharms[i] && children[i].sync.IsLocalOwner() && (children[i].sync.IsAttachedToPlayer() || children[i].sync.state >= SmartObjectSync.STATE_CUSTOM))
+                    if(!_spawnedCharms[i] && charms[i].bagSetter.child.sync.IsLocalOwner() && (charms[i].bagSetter.child.sync.IsAttachedToPlayer() || charms[i].bagSetter.child.sync.state >= SmartObjectSync.STATE_CUSTOM))
                     {
-                        children[i].sync.Respawn();
+                        charms[i].bagSetter.child.sync.Respawn();
                     }
-                    children[i].gameObject.SetActive(_spawnedCharms[i]);
+                    charms[i].gameObject.SetActive(_spawnedCharms[i]);
+                    charms[i].ResetDisappearTimer();
                 }
                 if (Networking.LocalPlayer.IsOwner(gameObject))
                 {
@@ -40,13 +41,13 @@ namespace MMMaellon
         VRC.SDK3.Data.DataDictionary spawnPointDict = new VRC.SDK3.Data.DataDictionary();
         public void Start()
         {
-            if (_spawnedCharms == null || _spawnedCharms.Length != children.Length)
+            if (_spawnedCharms == null || _spawnedCharms.Length != charms.Length)
             {
-                _spawnedCharms = new bool[children.Length];
+                _spawnedCharms = new bool[charms.Length];
                 for (int i = 0; i < _spawnedCharms.Length; i++)
                 {
-                    _spawnedCharms[i] = children[i].gameObject.activeSelf;
-                    spawnCharmDict.Add(i, children[i]);
+                    _spawnedCharms[i] = charms[i].gameObject.activeSelf;
+                    spawnCharmDict.Add(i, charms[i]);
                 }
                 if (Networking.LocalPlayer.IsOwner(gameObject))
                 {
@@ -66,7 +67,7 @@ namespace MMMaellon
         public void SpawnCharms()
         {
             Networking.SetOwner(Networking.LocalPlayer, gameObject);
-            _spawnedCharms = new bool[children.Length];//will be set everything to false
+            _spawnedCharms = new bool[charms.Length];//will be set everything to false
             selectedSpawnDict = spawnPointDict.ShallowClone();
             pointsToRemove = spawns.Length - Mathf.CeilToInt(spawns.Length * spawnChance);
             Debug.LogWarning("Removing " + pointsToRemove + " charms. Selected " + selectedSpawnDict.Count + " charms.");
@@ -91,9 +92,9 @@ namespace MMMaellon
                 selectedCharmKeys.Remove(unspawnedIndexToken);
                 unspawnedIndex = unspawnedIndexToken.Int;
                 _spawnedCharms[unspawnedIndex] = true;
-                children[unspawnedIndex].gameObject.SetActive(true);
-                Debug.LogWarning("Spawning charm " + children[unspawnedIndex].name + " at " + selectedSpawnKeys[i].Int + " spawn");
-                spawns[selectedSpawnKeys[i].Int].SpawnCharm(children[unspawnedIndex]);
+                charms[unspawnedIndex].gameObject.SetActive(true);
+                // Debug.LogWarning("Spawning charm " + charms[unspawnedIndex].name + " at " + selectedSpawnKeys[i].Int + " spawn");
+                spawns[selectedSpawnKeys[i].Int].SpawnCharm(charms[unspawnedIndex].bagSetter.child);
             }
             spawnedCharms = _spawnedCharms;
         }
@@ -130,8 +131,8 @@ namespace MMMaellon
             for (int i = 0; i < _spawnedCharms.Length; i++)
             {
                 _spawnedCharms[i] = true;
-                children[i].gameObject.SetActive(true);
-                children[i].sync.Respawn();
+                charms[i].gameObject.SetActive(true);
+                charms[i].bagSetter.child.sync.Respawn();
             }
             spawnedCharms = _spawnedCharms;
         }

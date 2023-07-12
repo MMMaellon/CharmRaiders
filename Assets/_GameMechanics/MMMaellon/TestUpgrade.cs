@@ -6,19 +6,19 @@ using VRC.Udon;
 
 namespace MMMaellon
 {
-    public class TestUpgrade : Upgrade
+    public class TestUpgrade : Charm
     {
-        public override void StartUpgrade()
+        public override void StartCharmEffects()
         {
             
         }
 
-        public override void StopUpgrade()
+        public override void StopCharmEffects()
         {
             
         }
 
-        public override void UpgradeLoop()
+        public override void CharmLoop()
         {
             
         }

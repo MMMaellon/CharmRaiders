@@ -37,13 +37,13 @@
       "dependencies": {}
     },
     "com.vrchat.clientsim": {
-      "version": "1.2.5",
+      "version": "1.2.6",
       "dependencies": {
         "com.vrchat.worlds": "^3.1.x"
       }
     },
     "com.vrchat.core.vpm-resolver": {
-      "version": "0.1.20",
+      "version": "0.1.21",
       "dependencies": {}
     },
     "dev.onevr.vrworldtoolkit": {
@@ -53,7 +53,7 @@
       }
     },
     "com.mmmaellon.smartobjectsync": {
-      "version": "3.3.3",
+      "version": "3.3.10",
       "dependencies": {
         "com.vrchat.udonsharp": "1.1.X"
       }
@@ -66,10 +66,10 @@
       }
     },
     "com.mmmaellon.p-shooters": {
-      "version": "2.7.6",
+      "version": "2.7.15",
       "dependencies": {
         "com.vrchat.udonsharp": "^1.1.X",
-        "com.mmmaellon.smartobjectsync": "^3.0.0",
+        "com.mmmaellon.smartobjectsync": "^3.3.7",
         "com.cyan.playerobjectpool": "^1.1.X"
       }
     }

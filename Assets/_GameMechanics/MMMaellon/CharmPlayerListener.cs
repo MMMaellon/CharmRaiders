@@ -9,9 +9,12 @@ namespace MMMaellon
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class CharmPlayerListener : P_Shooters.PlayerListener
     {
+        [HideInInspector]
+        public GameHandler game;
+        public float respawnDelayTime = 2f;
         public float respawnInvincibilityTime = 3f;
         public AudioSource receiveDamageAudio;
-        public AudioSource dealDamageAudio;
+        public AudioSource onDieAudio;
         public AudioSource onKillConfirmedAudio;
 
         [System.NonSerialized]
@@ -19,6 +22,31 @@ namespace MMMaellon
         public P_Shooters.ResourceManager armorResource;
         public P_Shooters.ResourceManager armorPenetrationResource;
         public P_Shooters.ResourceManager damageBoostResource;
+        public P_Shooters.ResourceManager pointsListener;
+        Player p;
+        [UdonSynced(UdonSyncMode.None)]
+        public bool _gameActive = false;
+        public bool gameActive{
+            get => _gameActive;
+            set
+            {
+                _gameActive = value;
+                //game either ended or started. We refresh.
+                if (Utilities.IsValid(playerHandler.localPlayer))
+                {
+                    playerHandler.localPlayer.SetResourceValueById(pointsListener.id, 0);
+                    p = playerHandler.localPlayer.GetComponent<Player>();
+                    if (!Utilities.IsValid(p.portal) && Networking.LocalPlayer.IsOwner(p.portal.gameObject))
+                    {
+                        p.portal.points = 0;
+                    }
+                }
+                if (Networking.LocalPlayer.IsOwner(gameObject))
+                {
+                    RequestSerialization();
+                }
+            }
+        }
         void Start()
         {
             respawnTimes = new float[playerHandler.players.Length];
@@ -26,6 +54,12 @@ namespace MMMaellon
             {
                 respawnTimes[i] = -1001f;
             }
+
+            Networking.LocalPlayer.CombatSetup();
+            Networking.LocalPlayer.CombatSetRespawn(true, respawnDelayTime, null);
+            Networking.LocalPlayer.CombatSetMaxHitpoints(100f);
+            Networking.LocalPlayer.CombatSetCurrentHitpoints(100f);
+            Networking.LocalPlayer.CombatSetDamageGraphic(null);
         }
 
         public override bool CanDealDamage(P_Shooters.Player attacker, P_Shooters.Player receiver)
@@ -34,7 +68,7 @@ namespace MMMaellon
             {
                 return false;
             }
-            return true;
+            return gameActive;
         }
 
         public override void OnDecreaseHealth(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
@@ -43,18 +77,8 @@ namespace MMMaellon
             {
                 if (receiver.IsOwnerLocal())
                 {
-                    if (Utilities.IsValid(receiveDamageAudio))
-                    {
-                        receiveDamageAudio.transform.position = receiver.transform.position;
-                        receiveDamageAudio.Play();
-                    }
-                } else if (attacker.IsOwnerLocal())
-                {
-                    if (Utilities.IsValid(dealDamageAudio))
-                    {
-                        dealDamageAudio.transform.position = receiver.transform.position;
-                        dealDamageAudio.Play();
-                    }
+                    receiveDamageAudio.transform.position = receiver.transform.position;
+                    receiveDamageAudio.Play();
                 }
             }
         }
@@ -64,31 +88,29 @@ namespace MMMaellon
             {
                 if (receiver.IsOwnerLocal())
                 {
-                    if (Utilities.IsValid(receiveDamageAudio))
-                    {
-                        receiveDamageAudio.transform.position = receiver.transform.position;
-                        receiveDamageAudio.Play();
-                    }
-                }
-                else if (attacker.IsOwnerLocal())
-                {
-                    if (Utilities.IsValid(dealDamageAudio))
-                    {
-                        dealDamageAudio.transform.position = receiver.transform.position;
-                        dealDamageAudio.Play();
-                    }
+                    receiveDamageAudio.transform.position = receiver.transform.position;
+                    receiveDamageAudio.Play();
                 }
             }
         }
 
         public override void OnMinHealth(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
         {
-            if (gameObject.activeInHierarchy && receiver.IsOwnerLocal())
+            if (gameObject.activeInHierarchy)
             {
-                receiver.Owner.Respawn();
-                respawnTimes[receiver.id] = Time.timeSinceLevelLoad;
-                attacker.ConfirmNormalKill();
-                receiver.ResetPlayer();
+                if (receiver.IsOwnerLocal())
+                {
+                    localPlayer = (Player)receiver;
+                    localPlayer.bag.ExplodeChildren(false);
+                    onDieAudio.Play();
+                    if (Utilities.IsValid(attacker) && !attacker.IsOwnerLocal())
+                    {
+                        attacker.ConfirmNormalKill();
+                    }
+                    SendCustomEventDelayedSeconds(nameof(RespawnCallback), respawnDelayTime, VRC.Udon.Common.Enums.EventTiming.Update);
+                    respawnTimes[receiver.id] = Time.timeSinceLevelLoad;
+                    receiver.Owner.CombatSetCurrentHitpoints(0);
+                }
             }
         }
 
@@ -96,14 +118,15 @@ namespace MMMaellon
         {
             if (gameObject.activeInHierarchy && Utilities.IsValid(onKillConfirmedAudio))
             {
-                receiveDamageAudio.transform.position = attacker.transform.position;
-                receiveDamageAudio.Play();
+                onKillConfirmedAudio.transform.position = attacker.transform.position;
+                onKillConfirmedAudio.Play();
             }
         }
 
         int armor;
         int armorPenetration;
         int damageBoost;
+        Player localPlayer;
         public override int AdjustDamage(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
         {
             if (gameObject.activeInHierarchy)
@@ -126,6 +149,19 @@ namespace MMMaellon
                 return armor > -10 ? damageBoost + Mathf.FloorToInt(value / ((0.1f * armor) + 1)) : -1001;//insta kill if your armor is too far into the negative
             }
             return value;
+        }
+
+        public void RespawnCallback()
+        {
+            //we have to make sure this gets called on a normal update loop
+            localPlayer.ResetPlayer();
+            localPlayer.Owner.Respawn();
+        }
+
+        public override void OnPlayerJoined(VRCPlayerApi player)
+        {
+            base.OnPlayerJoined(player);
+            player.CombatSetup();
         }
 
     }

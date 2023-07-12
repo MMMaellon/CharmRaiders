@@ -26,6 +26,7 @@ namespace MMMaellon
         Transform startParent;
         bool startRan = false;
         public Bag bag;
+        public bool changeParent = false;
         public void Start()
         {
             _localPlayer = Networking.LocalPlayer;
@@ -48,15 +49,14 @@ namespace MMMaellon
             {
                 EnterState();
             }
-            else
-            {
-                sync.state = (stateID + SmartObjectSync.STATE_CUSTOM);
-            }
         }
 
         public override void OnPickup()
         {
-            transform.parent = null;
+            if (changeParent)
+            {
+                transform.parent = null;
+            }
         }
 
         public override void OnDrop()
@@ -80,7 +80,10 @@ namespace MMMaellon
                 lastPickupeable = sync.pickup.pickupable;
                 sync.pickup.pickupable = parentPlayer.IsOwnerLocal();
             }
-            transform.parent = startParent;
+            if (changeParent)
+            {
+                transform.parent = startParent;
+            }
             if (parentPlayer.IsOwnerLocal() && !sync.IsLocalOwner())
             {
                 sync.TakeOwnership(false);
@@ -153,7 +156,6 @@ namespace MMMaellon
 
             if (Input.GetKey(shortcut) != desktopPickup)
             {
-                Debug.LogWarning("shortcut");
                 lastPosition = headData.position + bodyRotation * desktopPickupOffset;
                 OnEnterState();//basically restart the lerp
                 desktopPickup = Input.GetKey(shortcut);
@@ -237,5 +239,31 @@ namespace MMMaellon
         {
             sync.StartInterpolation();
         }
+
+        public void OnAvatarEyeHeightChanged()
+        {
+            Debug.LogWarning("OnAvatarEyeHeightChanged");
+            if (sync.IsOwnerLocal())
+            {
+                SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(Reposition));
+            }
+        }
+
+        public void OnAvatarChanged(VRCPlayerApi player)
+        {
+            Debug.LogWarning("OnAvatarChanged");
+            if (player == sync.owner)
+            {
+                Reposition();
+            }
+        }
+
+        // public void Update()
+        // {
+        //     if (Input.GetKeyDown(KeyCode.B))
+        //     {
+        //         sync.StartInterpolation();
+        //     }
+        // }
     }
 }

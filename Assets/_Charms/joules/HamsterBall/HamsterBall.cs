@@ -101,7 +101,10 @@ namespace MMMaellon
 
         public void PlayCollisionSound()
         {
-            collisionSound.PlayOneShot(collisionClips[Random.Range(0, collisionClips.Length)]);
+            if (Time.timeSinceLevelLoad > 1f)//make sure we're muted for at least one second at spawn to prevent spam
+            {
+                collisionSound.PlayOneShot(collisionClips[Random.Range(0, collisionClips.Length)]);
+            }
         }
 
         //collision enter event

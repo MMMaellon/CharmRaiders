@@ -15,7 +15,7 @@ namespace MMMaellon
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual), RequireComponent(typeof(Collider))]
     public class PriceTag : UdonSharpBehaviour
     {
-        public Upgrade upgrade;
+        public Charm upgrade;
         public TMPro.TextMeshProUGUI nameText;
         public TMPro.TextMeshProUGUI descriptionText;
         public TMPro.TextMeshProUGUI priceText;
@@ -208,8 +208,8 @@ namespace MMMaellon
             SerializedObject priceObj = new SerializedObject(priceText);
             SerializedObject weightObj = new SerializedObject(weightText);
 
-            nameObj.FindProperty("m_text").stringValue = upgrade.upgradeName;
-            descriptionObj.FindProperty("m_text").stringValue = upgrade.upgradeDescription;
+            nameObj.FindProperty("m_text").stringValue = upgrade.charmName;
+            descriptionObj.FindProperty("m_text").stringValue = upgrade.description;
             priceObj.FindProperty("m_text").stringValue = "$" + upgrade.price.ToString();
             weightObj.FindProperty("m_text").stringValue = upgrade.weight.ToString();
 

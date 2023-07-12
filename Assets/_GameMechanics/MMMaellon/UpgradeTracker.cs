@@ -3,88 +3,7 @@ using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
-#if !COMPILER_UDONSHARP && UNITY_EDITOR
-using VRC.SDKBase.Editor.BuildPipeline;
-using UnityEditor;
-using UdonSharpEditor;
-using System.Collections.Immutable;
-#endif
-
-namespace MMMaellon
-{
-    
-#if !COMPILER_UDONSHARP && UNITY_EDITOR
-    public class UpgradeTrackerEditor : IVRCSDKBuildRequestedCallback
-    {
-        public static bool Setup()
-        {
-            UpgradeTracker upgradeTracker = GameObject.FindObjectOfType<UpgradeTracker>();
-            Upgrade[] upgrades = GameObject.FindObjectsOfType<Upgrade>();
-            if (Utilities.IsValid(upgradeTracker) && Utilities.IsValid(upgrades) && upgrades.Length > 0)
-            {
-                SerializedObject serialized = new SerializedObject(upgradeTracker);
-                serialized.FindProperty("upgrades").ClearArray();
-                for (int i = 0; i < upgrades.Length; i++)
-                {
-                    serialized.FindProperty("upgrades").InsertArrayElementAtIndex(i);
-                    serialized.FindProperty("upgrades").GetArrayElementAtIndex(i).objectReferenceValue = upgrades[i];
-                    SerializedObject serializedUpgrade = new SerializedObject(upgrades[i]);
-                    if (upgrades[i].GetComponent<BagChildAttachmentSetter>())
-                    {
-                        SerializedObject serializedBagSetter = new SerializedObject(upgrades[i].GetComponent<BagChildAttachmentSetter>());
-                        serializedBagSetter.FindProperty("tracker").objectReferenceValue = upgradeTracker;
-                        serializedBagSetter.ApplyModifiedProperties();
-                        serializedUpgrade.FindProperty("bagSetter").objectReferenceValue = upgrades[i].GetComponent<BagChildAttachmentSetter>();
-                        serializedUpgrade.FindProperty("tracker").objectReferenceValue = upgradeTracker;
-                    }
-                    serializedUpgrade.ApplyModifiedProperties();
-                    upgrades[i].AddPriceTag();
-                }
-                CharmPool[] charmPools = GameObject.FindObjectsOfType<CharmPool>();
-                foreach (CharmPool charmPool in charmPools)
-                {
-                    SerializedObject serializedPool = new SerializedObject(charmPool);
-                    serializedPool.FindProperty("children").ClearArray();
-                    ChildAttachmentState[] charmChildren = charmPool.GetComponentsInChildren<ChildAttachmentState>();
-                    for (int i = 0; i < charmChildren.Length; i++)
-                    {
-                        serializedPool.FindProperty("children").InsertArrayElementAtIndex(i);
-                        serializedPool.FindProperty("children").GetArrayElementAtIndex(i).objectReferenceValue = charmChildren[i];
-                    }
-                    serializedPool.ApplyModifiedProperties();
-                }
-                serialized.FindProperty("charmPools").ClearArray();
-                for (int i = 0; i < charmPools.Length; i++)
-                {
-                    serialized.FindProperty("charmPools").InsertArrayElementAtIndex(i);
-                    serialized.FindProperty("charmPools").GetArrayElementAtIndex(i).objectReferenceValue = charmPools[i];
-                }
-                serialized.ApplyModifiedProperties();
-            }
-
-            return true;
-        }
-
-        [InitializeOnLoadMethod]
-        public static void Initialize()
-        {
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-        }
-
-        public static void OnPlayModeStateChanged(PlayModeStateChange change)
-        {
-            if (change != PlayModeStateChange.ExitingEditMode) return;
-            Setup();
-        }
-
-        public int callbackOrder => 0;
-
-        public bool OnBuildRequested(VRCSDKRequestedBuildType requestedBuildType)
-        {
-            return Setup();
-        }
-    }
-#endif
+namespace MMMaellon{
 
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class UpgradeTracker : SmartObjectSyncListener
@@ -106,19 +25,19 @@ namespace MMMaellon
                 }
             }
         }
-        public Upgrade[] upgrades;
+        public Charm[] upgrades;
         [System.NonSerialized]
         public VRC.SDK3.Data.DataList activeUpgradeList = new VRC.SDK3.Data.DataList();
         [System.NonSerialized]
         public VRC.SDK3.Data.DataList activeLoopingUpgradeList = new VRC.SDK3.Data.DataList();
         [System.NonSerialized]
-        public Upgrade[] activeLoopingUpgradeListArray = new Upgrade[0];
+        public Charm[] activeLoopingUpgradeListArray = new Charm[0];
         [System.NonSerialized]
         public VRC.SDK3.Data.DataToken[] activeLoopingUpgradeListTokenArray = new VRC.SDK3.Data.DataToken[0];
 
         public override void OnChangeOwner(SmartObjectSync sync, VRCPlayerApi oldOwner, VRCPlayerApi newOwner)
         {
-            currentUpgrade = sync.GetComponent<Upgrade>();
+            currentUpgrade = sync.GetComponent<Charm>();
             if (!Utilities.IsValid(currentUpgrade) || oldOwner == newOwner)
             {
                 return;
@@ -132,7 +51,7 @@ namespace MMMaellon
             }
         }
 
-        Upgrade currentUpgrade;
+        Charm currentUpgrade;
 
         public float weightCurve = 5f;
         public float baseRunSpeed = 12;
@@ -149,13 +68,27 @@ namespace MMMaellon
                 Networking.LocalPlayer.SetRunSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
                 Networking.LocalPlayer.SetStrafeSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
                 Networking.LocalPlayer.SetWalkSpeed((baseWalkSpeed * weightCurve) / (_weight + weightCurve));
+                if (Utilities.IsValid(localPlayer))
+                {
+                    localPlayer.bag.totalWeight = value;
+                }
             }
         }
         GameObject playerObject;
-        Player localPlayer;
+        Player _localPlayer;
+        Player localPlayer{
+            get
+            {
+                if (!Utilities.IsValid(_localPlayer))
+                {
+                    _localPlayer = (Player) playerHandler.localPlayer;
+                }
+                return _localPlayer;
+            }
+        }
         public override void OnChangeState(SmartObjectSync sync, int oldState, int newState)
         {
-            currentUpgrade = sync.GetComponent<Upgrade>();
+            currentUpgrade = sync.GetComponent<Charm>();
             if (!Utilities.IsValid(currentUpgrade))
             {
                 return;
@@ -178,19 +111,23 @@ namespace MMMaellon
             }
         }
 
-        public void AddUpgrade(Upgrade upgrade)
+        public void AddCharm(Charm upgrade)
         {
             if (!activeUpgradeList.Contains(upgrade))
             {
                 weight = weight + upgrade.weight;
+                if (Utilities.IsValid(localPlayer))
+                {
+                    localPlayer.bag.totalPrice = localPlayer.bag.totalPrice + upgrade.price;
+                }
                 if (upgrade.useLoop)
                 {
                     activeLoopingUpgradeList.Add(upgrade);
-                    activeLoopingUpgradeListArray = new Upgrade[activeLoopingUpgradeList.Count];
+                    activeLoopingUpgradeListArray = new Charm[activeLoopingUpgradeList.Count];
                     activeLoopingUpgradeListTokenArray = activeLoopingUpgradeList.ToArray();
                     for (int i = 0; i < activeLoopingUpgradeListTokenArray.Length; i++)
                     {
-                        activeLoopingUpgradeListArray[i] = (Upgrade) activeLoopingUpgradeListTokenArray[i].Reference;
+                        activeLoopingUpgradeListArray[i] = (Charm) activeLoopingUpgradeListTokenArray[i].Reference;
                     }
                 }
                 activeUpgradeList.Add(upgrade);
@@ -198,23 +135,27 @@ namespace MMMaellon
         }
 
         int listCount = 0;
-        public void RemoveUpgrade(Upgrade upgrade)
+        public void RemoveCharm(Charm upgrade)
         {
             Debug.LogWarning("Remove Upgrade");
             if (activeUpgradeList.Contains(upgrade))
             {
                 Debug.LogWarning("Remove Upgrade -- it contains");
                 weight = weight - upgrade.weight;
+                if (Utilities.IsValid(localPlayer))
+                {
+                    localPlayer.bag.totalPrice = localPlayer.bag.totalPrice - upgrade.price;
+                }
                 activeUpgradeList.Remove(upgrade);
                 listCount = activeLoopingUpgradeList.Count;
                 activeLoopingUpgradeList.Remove(upgrade);
                 if (listCount != activeLoopingUpgradeList.Count)
                 {
-                    activeLoopingUpgradeListArray = new Upgrade[activeLoopingUpgradeList.Count];
+                    activeLoopingUpgradeListArray = new Charm[activeLoopingUpgradeList.Count];
                     activeLoopingUpgradeListTokenArray = activeLoopingUpgradeList.ToArray();
                     for (int i = 0; i < activeLoopingUpgradeListTokenArray.Length; i++)
                     {
-                        activeLoopingUpgradeListArray[i] = (Upgrade)activeLoopingUpgradeListTokenArray[i].Reference;
+                        activeLoopingUpgradeListArray[i] = (Charm)activeLoopingUpgradeListTokenArray[i].Reference;
                     }
                 }
             }
@@ -222,7 +163,7 @@ namespace MMMaellon
 
         void Start()
         {
-            foreach (Upgrade upgrade in upgrades)
+            foreach (Charm upgrade in upgrades)
             {
                 upgrade.bagSetter.child.sync.AddListener(this);
             }
@@ -239,7 +180,7 @@ namespace MMMaellon
             }
             foreach (VRC.SDK3.Data.DataToken upgradeToken in activeLoopingUpgradeListArray)
             {
-                ((Upgrade) upgradeToken.Reference).UpgradeLoop();
+                ((Charm) upgradeToken.Reference).CharmLoop();
             }
         }
 
@@ -266,9 +207,13 @@ namespace MMMaellon
         public void ClearUpgrades()
         {
             activeLoopingUpgradeList.Clear();
-            activeLoopingUpgradeListArray = new Upgrade[0];
+            activeLoopingUpgradeListArray = new Charm[0];
             activeUpgradeList.Clear();
             weight = 0;
+            if (Utilities.IsValid(localPlayer))
+            {
+                localPlayer.bag.totalPrice = 0;
+            }
         }
         public float inventoryInterpolationTime = 0.25f;
         public Vector3 desktopInventoryPlacement = new Vector3(0, -0.25f, 0.5f);

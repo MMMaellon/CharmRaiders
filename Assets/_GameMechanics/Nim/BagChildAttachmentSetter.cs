@@ -1,5 +1,4 @@
-﻿
-using UdonSharp;
+﻿using UdonSharp;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.Udon;
@@ -48,8 +47,9 @@ namespace MMMaellon
                     {
                         //we are overlapping
                         child.Attach(localPlayer.bag.transform);
-                        child.sync.pos = child.sync.startPos;
+                        child.sync.pos = localPlayer.bag.transform.InverseTransformPoint(transform.position);
                         child.sync.rot = child.sync.startRot;
+                        child.RequestSerialization();
                     }
                 } else
                 {
@@ -58,6 +58,7 @@ namespace MMMaellon
                         child.Attach(localPlayer.bag.transform);
                         child.sync.pos = localPlayer.bag.transform.InverseTransformPoint(localPlayer.bag.backpackAttachment.raycastPos);
                         child.sync.rot = child.sync.startRot;
+                        child.RequestSerialization();
                     }
                 }
             }
@@ -65,9 +66,10 @@ namespace MMMaellon
 
         public override void OnDeserialization()
         {
-            if (Utilities.IsValid(transform.parent) && Utilities.IsValid(transform.parent.GetComponent<Bag>()))
+            //has to happen here
+            if (child.IsActiveState() && Utilities.IsValid(transform.parent) && Utilities.IsValid(transform.parent.GetComponent<Bag>()))
             {
-                GetComponent<Upgrade>().player = tracker.playerObjectAssigner._GetPlayerPooledObject(child.sync.owner).GetComponent<Player>();
+                GetComponent<Charm>().player = tracker.playerObjectAssigner._GetPlayerPooledObject(child.sync.owner).GetComponent<Player>();
                 transform.parent.GetComponent<Bag>().backpackAttachment.sync.StartInterpolation();
             }
         }

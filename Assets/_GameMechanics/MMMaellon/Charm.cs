@@ -13,21 +13,25 @@ using System.Collections.Immutable;
 namespace MMMaellon
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual), RequireComponent(typeof(SmartObjectSync)), RequireComponent(typeof(ChildAttachmentState))]
-    public abstract class Upgrade : UdonSharpBehaviour
+    public abstract class Charm : UdonSharpBehaviour
     {
         [Multiline]
-        public string upgradeName = "Gemstone";
+        public string charmName = "Gemstone";
         [Multiline]
-        public string upgradeDescription = "No Effect";
+        public string description = "No Effect";
         public int weight = 5;
         public int price = 5;
         public bool useLoop = false;
         public PriceTag priceTag;
-        public abstract void StartUpgrade();
-        public abstract void UpgradeLoop();
-        public abstract void StopUpgrade();
+        public abstract void StartCharmEffects();
+        public abstract void CharmLoop();
+        public abstract void StopCharmEffects();
+        [HideInInspector]
         public BagChildAttachmentSetter bagSetter;
+        [HideInInspector]
         public UpgradeTracker tracker;
+        [HideInInspector]
+        public GameHandler game;
         [System.NonSerialized, FieldChangeCallback(nameof(player))]
         public Player _player;
         public bool playerChanged = false;
@@ -40,17 +44,17 @@ namespace MMMaellon
                     playerChanged = true;
                     if (Utilities.IsValid(_player))
                     {
-                        StopUpgrade();
+                        StopCharmEffects();
                         if (_player.IsOwnerLocal())
                         {
-                            tracker.RemoveUpgrade(this);
+                            tracker.RemoveCharm(this);
                         }
                     }
                     if (Utilities.IsValid(value))
                     {
                         if (value.IsOwnerLocal())
                         {
-                            tracker.AddUpgrade(this);
+                            tracker.AddCharm(this);
                             bagSetter.child.sync.rigid.detectCollisions = !Utilities.IsValid(transform.parent) || !transform.parent.GetComponent<Bag>();
                         } else
                         {
@@ -69,14 +73,13 @@ namespace MMMaellon
                 {
                     if (value)
                     {
-                        StartUpgrade();
+                        StartCharmEffects();
                     } else
                     {
                         //we want to run stop upgrade while player is defined so we do it up there
                     }
                 }
             }
-
         }
 #if !COMPILER_UDONSHARP && UNITY_EDITOR
         public void Reset()
@@ -130,6 +133,68 @@ namespace MMMaellon
             {
                 priceTag.HidePriceTag();
             }
+        }
+
+        public void OnEnable()
+        {
+            bagSetter.child.sync.rigid.detectCollisions = true;
+            portalIndex = -1;
+            ResetDisappearTimer();
+        }
+        public void ResetDisappearTimer()
+        {
+            lastDisappear = -1001f;
+        }
+        float lastDisappear = -1001f;
+        public void Disappear()
+        {
+            bagSetter.child.sync.rigid.detectCollisions = false;
+            bagSetter.child.sync.pickup.Drop();
+            lastDisappear = Time.timeSinceLevelLoad;
+            DisappearLoop();
+        }
+
+        public void DisappearLoop()
+        {
+            Debug.LogWarning("DisappearLoop");
+            if (lastDisappear > 0 && lastDisappear + 0.5f < Time.timeSinceLevelLoad)
+            {
+                gameObject.SetActive(false);
+                lastDisappear = -1001f;
+                return;
+            } else if (portalIndex >= 0 && portalIndex < game.portals.Length && gameObject.activeSelf)
+            {
+                transform.position = Vector3.Lerp(transform.position, game.portals[portalIndex].transform.position, 0.25f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Random.rotation, 0.25f);
+                SendCustomEventDelayedFrames(nameof(DisappearLoop), 1);
+            }
+        }
+
+        [UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(portalIndex))]
+        public int _portalIndex = -1001;
+        public int portalIndex{
+            get => _portalIndex;
+            set
+            {
+                Debug.LogWarning("_portalIndex to " + value);
+                _portalIndex = value;
+                if (value >= 0 && value < game.portals.Length)
+                {
+                    Debug.LogWarning("calling disappear");
+                    Disappear();
+                } else
+                {
+                    ResetDisappearTimer();
+                }
+                if (Networking.LocalPlayer.IsOwner(gameObject))
+                {
+                    RequestSerialization();
+                }
+            }
+        }
+        public virtual void Start()
+        {
+            
         }
     }
 }

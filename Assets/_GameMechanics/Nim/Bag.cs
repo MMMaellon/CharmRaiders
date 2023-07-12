@@ -15,15 +15,38 @@ namespace MMMaellon
         public Animator animator;
         public float explodeVelocity = 5f;
         VRCPlayerApi _localplayer;
+
+        public TMPro.TextMeshProUGUI priceText;
+        public TMPro.TextMeshProUGUI weightText;
+        public int _totalPrice;
+        public int _totalWeight;
+        public int totalPrice{
+            get => _totalPrice;
+            set {
+                _totalPrice = value;
+                priceText.text = "$" + value;
+            }
+        }
+        public int totalWeight{
+            get => _totalWeight;
+            set {
+                _totalWeight = value;
+                weightText.text = value.ToString();
+            }
+        }
         public void Start()
         {
             _localplayer = Networking.LocalPlayer;
         }
-        public void EjectAll()
+
+        public void NetworkReadyCheck()
         {
-            foreach (ChildAttachmentState child in GetComponentsInChildren<ChildAttachmentState>())
+            if (!Networking.IsObjectReady(gameObject))
             {
-                child.ExitState();
+                SendCustomEventDelayedFrames(nameof(NetworkReadyCheck), 1);
+            } else
+            {
+                backpackAttachment.sync.StartInterpolation();
             }
         }
 
@@ -62,6 +85,7 @@ namespace MMMaellon
         public void OnEnable()
         {
             animator.SetBool("zip", true);
+            SendCustomEventDelayedFrames(nameof(NetworkReadyCheck), 1);
         }
 
         public void OnDisable(){
@@ -76,7 +100,7 @@ namespace MMMaellon
                 {
                     continue;
                 }
-                child.sync.rigid.velocity = (child.transform.position - child.sync.parentPos).normalized * explodeVelocity;
+                child.sync.rigid.velocity = (transform.position - child.transform.position).normalized * explodeVelocity;
                 child.sync.rigid.angularVelocity = child.sync.rigid.velocity;
                 child.ExitState();
             }
