@@ -18,7 +18,6 @@ namespace MMMaellon
 
         public override void StartCharmEffects()
         {
-            Debug.LogWarning("StartUpgrade on CrystallBallPickup");
             if (player != null && player.IsOwnerLocal())
             {
                 jumpscareListener.gameObject.SetActive(true);

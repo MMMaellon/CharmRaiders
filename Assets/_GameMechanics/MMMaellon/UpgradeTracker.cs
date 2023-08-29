@@ -137,10 +137,10 @@ namespace MMMaellon{
         int listCount = 0;
         public void RemoveCharm(Charm upgrade)
         {
-            Debug.LogWarning("Remove Upgrade");
+            // Debug.LogWarning("Remove Upgrade");
             if (activeUpgradeList.Contains(upgrade))
             {
-                Debug.LogWarning("Remove Upgrade -- it contains");
+                // Debug.LogWarning("Remove Upgrade -- it contains");
                 weight = weight - upgrade.weight;
                 if (Utilities.IsValid(localPlayer))
                 {
@@ -198,9 +198,17 @@ namespace MMMaellon{
         }
         public void TestRespawnObjects()
         {
+            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(TestRespawnObjectsCallback));
+        }
+
+        public void TestRespawnObjectsCallback()
+        {
             foreach (CharmPool pool in charmPools)
             {
-                pool.UnspawnAll();
+                if (Networking.LocalPlayer.IsOwner(pool.gameObject))
+                {
+                    pool.RespawnAll();
+                }
             }
         }
 

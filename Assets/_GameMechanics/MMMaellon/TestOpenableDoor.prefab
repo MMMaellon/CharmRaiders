@@ -268,7 +268,7 @@ MonoBehaviour:
   _udonSharpBackingUdonBehaviour: {fileID: 6548029636975785675}
   objectParent: {fileID: 6548029638364090164}
   animator: {fileID: 6548029637323051965}
-  maxHealth: 10
+  maxHealth: 50
   AllowClick: 1
 --- !u!114 &6548029636975785675
 MonoBehaviour:

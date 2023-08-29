@@ -37,6 +37,8 @@ namespace MMMaellon
         public void Start()
         {
             _localplayer = Networking.LocalPlayer;
+            totalPrice = totalPrice;
+            totalWeight = totalWeight;
         }
 
         public void NetworkReadyCheck()

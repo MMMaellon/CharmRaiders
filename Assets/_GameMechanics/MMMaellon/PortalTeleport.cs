@@ -55,5 +55,10 @@ namespace MMMaellon
                 audioSource.PlayOneShot(portalOffSound);
             }
         }
+
+        public void OpenPortal()
+        {
+            PortalAnimation(true);
+        }
     }
 }

@@ -64,7 +64,7 @@ namespace MMMaellon
 
         public override bool CanDealDamage(P_Shooters.Player attacker, P_Shooters.Player receiver)
         {
-            if (gameObject.activeInHierarchy && respawnTimes[receiver.id] + respawnInvincibilityTime >= Time.timeSinceLevelLoad)
+            if (gameObject.activeInHierarchy && respawnTimes[receiver.id] + respawnDelayTime + respawnInvincibilityTime >= Time.timeSinceLevelLoad)
             {
                 return false;
             }
@@ -110,6 +110,7 @@ namespace MMMaellon
                     SendCustomEventDelayedSeconds(nameof(RespawnCallback), respawnDelayTime, VRC.Udon.Common.Enums.EventTiming.Update);
                     respawnTimes[receiver.id] = Time.timeSinceLevelLoad;
                     receiver.Owner.CombatSetCurrentHitpoints(0);
+                    receiver.state = Player.STATE_DEAD;
                 }
             }
         }
@@ -154,8 +155,17 @@ namespace MMMaellon
         public void RespawnCallback()
         {
             //we have to make sure this gets called on a normal update loop
-            localPlayer.ResetPlayer();
             localPlayer.Owner.Respawn();
+            localPlayer.ResetPlayer();
+            localPlayer.state = Player.STATE_INVINCIBLE;
+            SendCustomEventDelayedSeconds(nameof(InvincinbilityOffCallback), respawnInvincibilityTime);
+        }
+        public void InvincinbilityOffCallback()
+        {
+            if (localPlayer.state == Player.STATE_INVINCIBLE && Mathf.Abs(respawnTimes[localPlayer.id] + respawnInvincibilityTime + respawnDelayTime - Time.timeSinceLevelLoad) < 0.25f )
+            {
+                localPlayer.state = Player.STATE_NORMAL;
+            }
         }
 
         public override void OnPlayerJoined(VRCPlayerApi player)

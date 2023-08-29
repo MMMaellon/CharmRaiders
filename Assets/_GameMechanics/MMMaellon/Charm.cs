@@ -29,7 +29,11 @@ namespace MMMaellon
         [HideInInspector]
         public BagChildAttachmentSetter bagSetter;
         [HideInInspector]
+        public int index;
+        [HideInInspector]
         public UpgradeTracker tracker;
+        [HideInInspector]
+        public CharmPool pool;
         [HideInInspector]
         public GameHandler game;
         [System.NonSerialized, FieldChangeCallback(nameof(player))]
@@ -92,7 +96,6 @@ namespace MMMaellon
 
         public void AddPriceTag()
         {
-            Debug.LogWarning("AddPriceTag " + name);
             SerializedObject serializedObject = new SerializedObject(this);
             if (priceTag == null)
             {
@@ -108,7 +111,6 @@ namespace MMMaellon
 
             if (priceTag != null)
             {
-                Debug.LogWarning("we have a price tag");
                 Vector3 scaleVector = transform.InverseTransformVector(new Vector3(0.25f, 0.25f, 0.25f));
                 priceTag.transform.localScale = scaleVector;
                 SerializedObject serializedPriceTag = new SerializedObject(priceTag);
@@ -116,7 +118,6 @@ namespace MMMaellon
                 serializedPriceTag.ApplyModifiedProperties();
                 priceTag.SetupText();
             }
-            Debug.LogWarning("AddPriceTag finish");
         }
 #endif
         public override void OnPickup()
@@ -138,9 +139,14 @@ namespace MMMaellon
         public void OnEnable()
         {
             bagSetter.child.sync.rigid.detectCollisions = true;
-            portalIndex = -1;
+            portalIndex = -1001;
             ResetDisappearTimer();
+            if (bagSetter.child.sync.IsLocalOwner())
+            {
+                bagSetter.child.sync.Respawn();
+            }
         }
+
         public void ResetDisappearTimer()
         {
             lastDisappear = -1001f;
@@ -156,10 +162,13 @@ namespace MMMaellon
 
         public void DisappearLoop()
         {
-            Debug.LogWarning("DisappearLoop");
             if (lastDisappear > 0 && lastDisappear + 0.5f < Time.timeSinceLevelLoad)
             {
                 gameObject.SetActive(false);
+                if (Networking.LocalPlayer.IsOwner(pool.gameObject))
+                {
+                    pool.Despawn(index);
+                }
                 lastDisappear = -1001f;
                 return;
             } else if (portalIndex >= 0 && portalIndex < game.portals.Length && gameObject.activeSelf)
@@ -170,17 +179,25 @@ namespace MMMaellon
             }
         }
 
-        [UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(portalIndex))]
+        [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(portalIndex))]
         public int _portalIndex = -1001;
         public int portalIndex{
             get => _portalIndex;
             set
             {
-                Debug.LogWarning("_portalIndex to " + value);
+                Debug.LogWarning("setting portal index on charm to " + value);
+                if (Utilities.IsValid(game.localPlayer) && value >= 0)
+                {
+                    Debug.LogWarning("localplayer is valid");
+                    if (value != _portalIndex && bagSetter.child.sync.IsOwnerLocal())
+                    {
+                        Debug.LogWarning("we are owner");
+                        game.localPlayer.points += price;
+                    }
+                }
                 _portalIndex = value;
                 if (value >= 0 && value < game.portals.Length)
                 {
-                    Debug.LogWarning("calling disappear");
                     Disappear();
                 } else
                 {

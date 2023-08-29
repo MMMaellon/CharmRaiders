@@ -6,7 +6,7 @@ using VRC.Udon;
 
 namespace MMMaellon
 {
-    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual), DefaultExecutionOrder(1000)]//has to come last so that other network events can come in
     public class CharmPool : UdonSharpBehaviour
     {
         public float spawnChance = 0.5f;
@@ -16,12 +16,22 @@ namespace MMMaellon
         int unspawnedIndex;
         [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(spawnedCharms))]
         public bool[] _spawnedCharms = null;
+        bool firstNetworkSettle = true;
+        bool networkSettleLoop = false;
         public bool[] spawnedCharms
         {
             get => _spawnedCharms;
             set
             {
                 _spawnedCharms = value;
+                if (firstNetworkSettle){
+                    if (!networkSettleLoop && !Networking.LocalPlayer.IsOwner(gameObject) && !Networking.IsNetworkSettled)
+                    {
+                        networkSettleLoop = true;
+                        SendCustomEventDelayedSeconds(nameof(CheckForNetworkSettle), 1);
+                    }
+                    return;
+                }
                 for (int i = 0; i < _spawnedCharms.Length; i++)
                 {
                     if(!_spawnedCharms[i] && charms[i].bagSetter.child.sync.IsLocalOwner() && (charms[i].bagSetter.child.sync.IsAttachedToPlayer() || charms[i].bagSetter.child.sync.state >= SmartObjectSync.STATE_CUSTOM))
@@ -41,23 +51,35 @@ namespace MMMaellon
         VRC.SDK3.Data.DataDictionary spawnPointDict = new VRC.SDK3.Data.DataDictionary();
         public void Start()
         {
-            if (_spawnedCharms == null || _spawnedCharms.Length != charms.Length)
+            if (Networking.LocalPlayer.IsOwner(gameObject))
             {
-                _spawnedCharms = new bool[charms.Length];
-                for (int i = 0; i < _spawnedCharms.Length; i++)
+                firstNetworkSettle = false;
+                if (_spawnedCharms == null || _spawnedCharms.Length != charms.Length)
                 {
-                    _spawnedCharms[i] = charms[i].gameObject.activeSelf;
-                    spawnCharmDict.Add(i, charms[i]);
-                }
-                if (Networking.LocalPlayer.IsOwner(gameObject))
-                {
-                    RequestSerialization();
+                    _spawnedCharms = new bool[charms.Length];
+                    for (int i = 0; i < _spawnedCharms.Length; i++)
+                    {
+                        _spawnedCharms[i] = charms[i].gameObject.activeSelf;
+                        spawnCharmDict.Add(i, charms[i]);
+                    }
+                    spawnedCharms = _spawnedCharms;
                 }
             }
             for (int i = 0; i < spawns.Length; i++)
             {
                 spawnPointDict.Add(i, spawns[i]);
             }
+        }
+
+        public void CheckForNetworkSettle()
+        {
+            if (Networking.IsNetworkSettled)
+            {
+                firstNetworkSettle = false;
+                spawnedCharms = spawnedCharms;
+                return;
+            }
+            SendCustomEventDelayedSeconds(nameof(CheckForNetworkSettle), 1);
         }
         VRC.SDK3.Data.DataDictionary selectedSpawnDict = new VRC.SDK3.Data.DataDictionary();
         int pointsToRemove = 0;
@@ -70,7 +92,7 @@ namespace MMMaellon
             _spawnedCharms = new bool[charms.Length];//will be set everything to false
             selectedSpawnDict = spawnPointDict.ShallowClone();
             pointsToRemove = spawns.Length - Mathf.CeilToInt(spawns.Length * spawnChance);
-            Debug.LogWarning("Removing " + pointsToRemove + " charms. Selected " + selectedSpawnDict.Count + " charms.");
+            // Debug.LogWarning("Removing " + pointsToRemove + " charms. Selected " + selectedSpawnDict.Count + " charms.");
             while (pointsToRemove > 0 && selectedSpawnDict.Count > 0)
             {
                 if (!selectedSpawnDict.Remove(Random.Range(0, spawns.Length)))
@@ -85,7 +107,7 @@ namespace MMMaellon
             {
                 if (selectedCharmKeys.Count <= 0)
                 {
-                    Debug.LogWarning("No charms left to spawn.");
+                    // Debug.LogWarning("No charms left to spawn.");
                     break;
                 }
                 unspawnedIndexToken = selectedCharmKeys[Random.Range(0, selectedCharmKeys.Count)];
@@ -125,15 +147,35 @@ namespace MMMaellon
             return -1001;
         }
 
-        public void UnspawnAll()
+        public void DespawnAll()
         {
             Networking.SetOwner(Networking.LocalPlayer, gameObject);
             for (int i = 0; i < _spawnedCharms.Length; i++)
             {
                 _spawnedCharms[i] = true;
-                charms[i].gameObject.SetActive(true);
+                charms[i].gameObject.SetActive(false);
                 charms[i].bagSetter.child.sync.Respawn();
             }
+            spawnedCharms = _spawnedCharms;
+        }
+        public void RespawnAll()
+        {
+            Networking.SetOwner(Networking.LocalPlayer, gameObject);
+            for (int i = 0; i < _spawnedCharms.Length; i++)
+            {
+                _spawnedCharms[i] = true;
+            }
+            spawnedCharms = _spawnedCharms;
+        }
+
+        public void Despawn(int index)
+        {
+            Networking.SetOwner(Networking.LocalPlayer, gameObject);
+            if (index < 0 || index >= _spawnedCharms.Length || !_spawnedCharms[index])
+            {
+                return;
+            }
+            _spawnedCharms[index] = false;
             spawnedCharms = _spawnedCharms;
         }
 

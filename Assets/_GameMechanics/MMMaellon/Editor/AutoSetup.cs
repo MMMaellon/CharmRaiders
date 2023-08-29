@@ -88,6 +88,11 @@ namespace MMMaellon
                     {
                         serializedPool.FindProperty("charms").InsertArrayElementAtIndex(i);
                         serializedPool.FindProperty("charms").GetArrayElementAtIndex(i).objectReferenceValue = charmChildren[i];
+                        SerializedObject serializedCharmChild = new SerializedObject(charmChildren[i]);
+                        serializedCharmChild.FindProperty("pool").objectReferenceValue = charmPool;
+                        serializedCharmChild.FindProperty("game").objectReferenceValue = game;
+                        serializedCharmChild.FindProperty("index").intValue = i;
+                        serializedCharmChild.ApplyModifiedProperties();
                     }
                     serializedPool.ApplyModifiedProperties();
                 }

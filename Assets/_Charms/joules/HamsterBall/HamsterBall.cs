@@ -95,7 +95,7 @@ namespace MMMaellon
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 transform.localPosition = Vector3.zero;
-                enabled = false;
+                gameObject.SetActive(false);
             }
         }
 

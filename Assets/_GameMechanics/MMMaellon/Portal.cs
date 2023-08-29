@@ -38,19 +38,24 @@ namespace MMMaellon
             get => _points;
             set
             {
-                if (_points != value && pointsTextValue == _points)
+                if (_points != value)
                 {
-                    //value has changed and there was not an update loop already going because the value was the same
-                    updatePointsText();
+                    if (pointsTextValue == _points)
+                    {
+                        //value has changed and there was not an update loop already going because the value was the same
+                        SendCustomEventDelayedFrames(nameof(updatePointsText), 0);
+                    }
+                    _points = value;
+                    if(Networking.LocalPlayer.IsOwner(gameObject)){
+                        RequestSerialization();
+                    }
                 }
-                _points = value;
             }
         }
         int pointsTextValue;
         public TMPro.TextMeshProUGUI pointsText;
         public void updatePointsText()
         {
-            animator.SetTrigger("updateText");
             if (pointsTextValue < points)
             {
                 pointsTextValue++;
@@ -104,9 +109,7 @@ namespace MMMaellon
             {
                 return;
             }
-            Debug.LogWarning("setting portal index to " + index);
             otherCharm.portalIndex = index;
-            game.localPlayer.points += otherCharm.price;
         }
 
         public void PortalOn()
@@ -124,7 +127,10 @@ namespace MMMaellon
             {
                 return;
             }
-            game.localPlayer.portalIndex = index;
+            if (game.state == GameHandler.STATE_MATCHMAKING || game.state == GameHandler.STATE_GAME_START_COUNTDOWN)
+            {
+                game.localPlayer.portalIndex = index;
+            }
         }
 
         public void LeavePortal()

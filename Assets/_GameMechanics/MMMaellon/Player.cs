@@ -8,6 +8,7 @@ namespace MMMaellon
 {
     public class Player : P_Shooters.Player
     {
+
         [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(portalIndex))]
         public int _portalIndex = -1001;
         bool foundPortalOwner;
@@ -45,13 +46,20 @@ namespace MMMaellon
                 } else
                 {
                     portal = game.portals[value];
-                    portal.animator.enabled = true;
-                    portal.animator.SetBool("local", true);
-                    portal.EnterAnimation();
-                    if (!portal.portal)
+                    if (IsOwnerLocal())
                     {
-                        Networking.SetOwner(Networking.LocalPlayer, portal.gameObject);
-                        portal.PortalOn();
+                        portal.animator.enabled = true;
+                        portal.animator.SetBool("local", true);
+                        portal.EnterAnimation();
+                        if (!portal.portal)
+                        {
+                            Networking.SetOwner(Networking.LocalPlayer, portal.gameObject);
+                            portal.PortalOn();
+                        }
+                    }
+                    else
+                    {
+
                     }
                 }
                 if (IsOwnerLocal())
@@ -70,11 +78,17 @@ namespace MMMaellon
             get => _points;
             set
             {
+                Debug.LogWarning("setting points on player to " + value);
                 if (value > _points && Utilities.IsValid(portal) && Networking.LocalPlayer.IsOwner(portal.gameObject))
                 {
+                    Debug.LogWarning("portal is valid, we are increasing portal points by " + (value - _points));
                     portal.points += value - _points;
                 }
                 _points = value;
+                if (IsOwnerLocal())
+                {
+                    RequestSerialization();
+                }
             }
         }
 

@@ -14,7 +14,8 @@ namespace MMMaellon
         public override void StartCharmEffects()
         {
             hamsterBallEffect.player = player;
-            hamsterBallEffect.enabled = true;
+            // hamsterBallEffect.enabled = true;
+            hamsterBallEffect.gameObject.SetActive(true);
             if(player != null && player.IsOwnerLocal()){
                 bagSetter.tracker.charmListener.armorResource.ChangeValue(player, armor);
             }

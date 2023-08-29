@@ -20,7 +20,8 @@ namespace MMMaellon
         public float horizontalThresholdSmoothing = 0.9f;
         public Vector3 backpackOffset = new Vector3(0.15f, -0.15f, -0.4f);
         public Vector3 desktopPickupOffset = new Vector3(0, 0, 0.5f);
-        public Quaternion rotationOffset = Quaternion.Euler(90, 0, 0);
+        public Quaternion rotationOffset = Quaternion.Euler(120, 0, 0);
+        public Quaternion desktopRotationOffset = Quaternion.Euler(90, 0, 0);
         VRCPlayerApi _localPlayer;
         float lastAttach = -1001f;
         Transform startParent;
@@ -223,7 +224,14 @@ namespace MMMaellon
                 targetOffset = backpackOffset;
             }
             transform.position = sync.HermiteInterpolatePosition(sync.startPos, Vector3.zero, headData.position + bodyRotation * targetOffset, Vector3.zero, smootherInterpolation);
-            transform.rotation = sync.HermiteInterpolateRotation(sync.startRot, Vector3.zero, bodyRotation * rotationOffset, Vector3.zero, smootherInterpolation);
+            if (desktopPickup)
+            {
+                transform.rotation = sync.HermiteInterpolateRotation(sync.startRot, Vector3.zero, bodyRotation * desktopRotationOffset, Vector3.zero, smootherInterpolation);
+            }
+            else
+            {
+                transform.rotation = sync.HermiteInterpolateRotation(sync.startRot, Vector3.zero, bodyRotation * rotationOffset, Vector3.zero, smootherInterpolation);
+            }
             if (smootherInterpolation >= 1f)
             {
                 lastPosition = transform.position;
@@ -242,16 +250,14 @@ namespace MMMaellon
 
         public void OnAvatarEyeHeightChanged()
         {
-            Debug.LogWarning("OnAvatarEyeHeightChanged");
             if (sync.IsOwnerLocal())
             {
                 SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(Reposition));
             }
         }
 
-        public void OnAvatarChanged(VRCPlayerApi player)
+        public override void OnAvatarChanged(VRCPlayerApi player)
         {
-            Debug.LogWarning("OnAvatarChanged");
             if (player == sync.owner)
             {
                 Reposition();

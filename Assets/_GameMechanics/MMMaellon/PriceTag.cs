@@ -60,7 +60,7 @@ namespace MMMaellon
         Quaternion goalRot;
         VRCPlayerApi.TrackingData headData;
         float progress;
-        Vector3 desktopOffset = new Vector3(-0.15f, -0.1f, 0.5f);
+        Vector3 desktopOffset = new Vector3(-0.05f, -0.05f, 0.2f);
         Vector3 vrOffset = new Vector3(-0.8f, 0, 0);
         public void ShowLoop()
         {
@@ -105,49 +105,49 @@ namespace MMMaellon
             }
             transform.localPosition = Vector3.Lerp(lastPosition, goalPos, progress);
             transform.localRotation = Quaternion.Slerp(lastRotation, goalRot, progress);
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Flip();
-            }
+            // if (Input.GetKeyDown(KeyCode.E))
+            // {
+            //     Flip();
+            // }
         }
 
-        public override void Interact()
-        {
-            Flip();
-        }
+        // public override void Interact()
+        // {
+        //     Flip();
+        // }
 
-        public void Flip()
-        {
-            if (Networking.LocalPlayer.IsUserInVR())
-            {
-                switch (state)
-                {
-                    case STATE_IDLE:
-                        state = STATE_VRFLIP;
-                        break;
-                    default:
-                        state = STATE_IDLE;
-                        break;
-                }
-                if (!loop)
-                {
-                    loop = true;
-                    ShowLoop();
-                }
-            } else
-            {
-                switch (state)
-                {
-                    case STATE_FRONT:
-                        state = STATE_BACK;
-                        break;
-                    case STATE_BACK:
-                        state = STATE_FRONT;
-                        break;
-                }
-            }
-            flipSound.Play();
-        }
+        // public void Flip()
+        // {
+        //     if (Networking.LocalPlayer.IsUserInVR())
+        //     {
+        //         switch (state)
+        //         {
+        //             case STATE_IDLE:
+        //                 state = STATE_VRFLIP;
+        //                 break;
+        //             default:
+        //                 state = STATE_IDLE;
+        //                 break;
+        //         }
+        //         if (!loop)
+        //         {
+        //             loop = true;
+        //             ShowLoop();
+        //         }
+        //     } else
+        //     {
+        //         switch (state)
+        //         {
+        //             case STATE_FRONT:
+        //                 state = STATE_BACK;
+        //                 break;
+        //             case STATE_BACK:
+        //                 state = STATE_FRONT;
+        //                 break;
+        //         }
+        //     }
+        //     flipSound.Play();
+        // }
 
         public void ShowPriceTag()
         {
