@@ -111,8 +111,8 @@ namespace MMMaellon
 
             if (priceTag != null)
             {
-                Vector3 scaleVector = transform.InverseTransformVector(new Vector3(0.25f, 0.25f, 0.25f));
-                priceTag.transform.localScale = scaleVector;
+                // Vector3 scaleVector = transform.InverseTransformVector(new Vector3(0.25f, 0.25f, 0.25f));
+                // priceTag.transform.localScale = scaleVector;
                 SerializedObject serializedPriceTag = new SerializedObject(priceTag);
                 serializedPriceTag.FindProperty("upgrade").objectReferenceValue = this;
                 serializedPriceTag.ApplyModifiedProperties();
@@ -173,7 +173,7 @@ namespace MMMaellon
                 return;
             } else if (portalIndex >= 0 && portalIndex < game.portals.Length && gameObject.activeSelf)
             {
-                transform.position = Vector3.Lerp(transform.position, game.portals[portalIndex].transform.position, 0.25f);
+                transform.position = Vector3.Lerp(transform.position, game.portals[portalIndex].rigid.centerOfMass, 0.25f);
                 transform.rotation = Quaternion.Slerp(transform.rotation, Random.rotation, 0.25f);
                 SendCustomEventDelayedFrames(nameof(DisappearLoop), 1);
             }

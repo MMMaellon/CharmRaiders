@@ -12,6 +12,7 @@ namespace MMMaellon
         [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(portalIndex))]
         public int _portalIndex = -1001;
         bool foundPortalOwner;
+        int activePortalCount;
         public int portalIndex{
             get => _portalIndex;
             set
@@ -36,6 +37,26 @@ namespace MMMaellon
                         if (!foundPortalOwner)
                         {
                             portal.portal = false;
+                            if (!game.skipTeamCheckForDebug)
+                            {
+                                activePortalCount = 0;
+                                foreach (Portal p in game.portals)
+                                {
+                                    if (p.portal)
+                                    {
+                                        activePortalCount++;
+                                        if (activePortalCount > 1)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (activePortalCount <= 1)
+                                {
+                                    //Not enough people still playing
+                                    game.EndGame();
+                                }
+                            }
                         }
                     }
                 }
@@ -43,6 +64,7 @@ namespace MMMaellon
                 if (value < 0 || value >= game.portals.Length)
                 {
                     portal = null;
+                    ResetPlayer();
                 } else
                 {
                     portal = game.portals[value];
@@ -92,6 +114,12 @@ namespace MMMaellon
             }
         }
 
+        public void ResetPlayerAndPoints()
+        {
+            ResetPlayer();
+            points = 0;
+        }
+
         public void TakeOwnershipOfPortal()
         {
             if (Utilities.IsValid(portal))
@@ -127,7 +155,14 @@ namespace MMMaellon
                 return;
             }
             eventAnimator.SetTrigger("spawn");
-            Owner.TeleportTo(portal.transform.position, portal.transform.rotation);
+            if (game.state != GameHandler.STATE_GAME_IN_PROGRESS)
+            {
+                Owner.TeleportTo(game.teleportPortal.transform.position, game.teleportPortal.transform.rotation);
+            }
+            else
+            {
+                Owner.TeleportTo(portal.transform.position, portal.transform.rotation);
+            }
             portal.SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, "EnterAnimation");
         }
 

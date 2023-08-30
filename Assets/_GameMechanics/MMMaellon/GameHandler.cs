@@ -16,6 +16,7 @@ namespace MMMaellon
         Player _localPlayer = null;
         [System.NonSerialized, UdonSynced, FieldChangeCallback(nameof(error))]
         public string _error = "";
+        public bool skipTeamCheckForDebug = false;
         public string error
         {
             get => _error;
@@ -172,6 +173,7 @@ namespace MMMaellon
         {
             if (state == STATE_MATCHMAKING)
             {
+                tracker.SpawnCharms();
                 state = STATE_GAME_START_COUNTDOWN;
             }
         }
@@ -193,7 +195,7 @@ namespace MMMaellon
                         }
                     }
                 }
-                if (activePortalCount > 1)
+                if (activePortalCount > 1 || skipTeamCheckForDebug)
                 {
                     state = STATE_GAME_IN_PROGRESS;
                 }
@@ -203,6 +205,11 @@ namespace MMMaellon
                     state = STATE_GAME_ERROR;
                 }
             }
+        }
+
+        public void RequestEndGame()
+        {
+            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.Owner, nameof(EndGame));
         }
         public void EndGame()
         {
@@ -219,6 +226,14 @@ namespace MMMaellon
             }
         }
 
+        public void RestartMatchmakingCallback()
+        {
+            if (Networking.LocalPlayer.IsOwner(gameObject) && state == STATE_GAME_END)
+            {
+                state = STATE_MATCHMAKING;
+            }
+        }
+
         public void OnStartMatchmaking()
         {
 
@@ -231,7 +246,10 @@ namespace MMMaellon
 
         public void OnStartGameCountdown()
         {
-            
+            if (Utilities.IsValid(localPlayer))
+            {
+                localPlayer.ResetPlayerAndPoints();
+            }
         }
 
         public void OnStopGameCountdown()
@@ -243,15 +261,15 @@ namespace MMMaellon
         {
             lastGameStart = Time.timeSinceLevelLoad;
             SendCustomEventDelayedSeconds(nameof(GameEndCallback), gameDuration);
+            if (Utilities.IsValid(localPlayer))
+            {
+                localPlayer.ResetPlayerAndPoints();
+            }
         }
 
         public void SpawnCallback()
         {
-            if (Utilities.IsValid(localPlayer) && Utilities.IsValid(localPlayer.portal))
-            {
-                localPlayer.Spawn();
-                localPlayer.ResetPlayer();
-            }
+            teleportPortal.PortalAnimation(true);
         }
 
         public void GameEndCallback()
@@ -267,8 +285,10 @@ namespace MMMaellon
             //spawn back in lobby
             if (localPlayer.portalIndex >= 0)
             {
-                Networking.LocalPlayer.Respawn();
+                tracker.DropUpgrades();
+                Networking.LocalPlayer.TeleportTo(teleportPortal.transform.position, teleportPortal.transform.rotation);
             }
+            teleportPortal.PortalAnimation(false);
         }
         public void OnStartGameEnd()
         {
@@ -294,6 +314,22 @@ namespace MMMaellon
         public void OnStopGameError()
         {
 
+        }
+
+        public void ClearError()
+        {
+            if (state == STATE_GAME_ERROR)
+            {
+                SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.Owner, nameof(ClearErrorCallback));
+            }
+        }
+
+        public void ClearErrorCallback()
+        {
+            if (Networking.LocalPlayer.IsOwner(gameObject))
+            {
+                state = STATE_MATCHMAKING;
+            }
         }
 
         public override void OnPlayerRespawn(VRCPlayerApi player)

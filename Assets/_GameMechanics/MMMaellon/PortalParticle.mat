@@ -72,7 +72,7 @@ Material:
     - _BlendOp: 0
     - _BumpScale: 1
     - _ColorMask: 15
-    - _CullMode: 0
+    - _CullMode: 2
     - _CustomGradient: 1
     - _CustomGradientAlpha: 2
     - _CustomMode: 0

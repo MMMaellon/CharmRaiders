@@ -109,6 +109,17 @@ namespace MMMaellon{
             {
                 currentUpgrade.player = null;
             }
+            if (Utilities.IsValid(currentUpgrade.player) && currentUpgrade.player.IsOwnerLocal())
+            {
+                if (oldState == currentUpgrade.bagSetter.child.stateID + SmartObjectSync.STATE_CUSTOM)
+                {
+                    localPlayer.bag.totalPrice -= currentUpgrade.price;
+                }
+                if (newState == currentUpgrade.bagSetter.child.stateID + SmartObjectSync.STATE_CUSTOM)
+                {
+                    localPlayer.bag.totalPrice += currentUpgrade.price;
+                }
+            }
         }
 
         public void AddCharm(Charm upgrade)
@@ -116,10 +127,10 @@ namespace MMMaellon{
             if (!activeUpgradeList.Contains(upgrade))
             {
                 weight = weight + upgrade.weight;
-                if (Utilities.IsValid(localPlayer))
-                {
-                    localPlayer.bag.totalPrice = localPlayer.bag.totalPrice + upgrade.price;
-                }
+                // if (Utilities.IsValid(localPlayer))
+                // {
+                //     localPlayer.bag.totalPrice = localPlayer.bag.totalPrice + upgrade.price;
+                // }
                 if (upgrade.useLoop)
                 {
                     activeLoopingUpgradeList.Add(upgrade);
@@ -142,10 +153,10 @@ namespace MMMaellon{
             {
                 // Debug.LogWarning("Remove Upgrade -- it contains");
                 weight = weight - upgrade.weight;
-                if (Utilities.IsValid(localPlayer))
-                {
-                    localPlayer.bag.totalPrice = localPlayer.bag.totalPrice - upgrade.price;
-                }
+                // if (Utilities.IsValid(localPlayer))
+                // {
+                //     localPlayer.bag.totalPrice = localPlayer.bag.totalPrice - upgrade.price;
+                // }
                 activeUpgradeList.Remove(upgrade);
                 listCount = activeLoopingUpgradeList.Count;
                 activeLoopingUpgradeList.Remove(upgrade);
@@ -223,34 +234,33 @@ namespace MMMaellon{
                 localPlayer.bag.totalPrice = 0;
             }
         }
+
+        VRC_Pickup currentPickup;
+        public void DropUpgrades()
+        {
+            currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.Left);
+            if (Utilities.IsValid(currentPickup))
+            {
+                currentPickup.Drop();
+            }
+            currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.None);
+            if (Utilities.IsValid(currentPickup))
+            {
+                currentPickup.Drop();
+            }
+            currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.Right);
+            if (Utilities.IsValid(currentPickup))
+            {
+                currentPickup.Drop();
+            }
+            ClearUpgrades();
+            localPlayer.bag.ExplodeChildren(false);
+        }
+
         public float inventoryInterpolationTime = 0.25f;
         public Vector3 desktopInventoryPlacement = new Vector3(0, -0.25f, 0.5f);
         public float inventorySpacing = 0.05f;
         public float desktopInventorySpacing = 0.25f;
 
-        VRC_Pickup currentPickup;
-        public override void OnPlayerRespawn(VRCPlayerApi player)
-        {
-            if (Utilities.IsValid(player) && player.isLocal)
-            {
-                currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.Left);
-                if (Utilities.IsValid(currentPickup))
-                {
-                    currentPickup.Drop();
-                }
-                currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.None);
-                if (Utilities.IsValid(currentPickup))
-                {
-                    currentPickup.Drop();
-                }
-                currentPickup = Networking.LocalPlayer.GetPickupInHand(VRC_Pickup.PickupHand.Right);
-                if (Utilities.IsValid(currentPickup))
-                {
-                    currentPickup.Drop();
-                }
-                ClearUpgrades();
-                ((Player)playerHandler.localPlayer).bag.ExplodeChildren(false);
-            }
-        }
     }
 }

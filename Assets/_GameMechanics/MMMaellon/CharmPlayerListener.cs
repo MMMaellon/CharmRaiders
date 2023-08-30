@@ -1,6 +1,7 @@
 ﻿
 using UdonSharp;
 using UnityEngine;
+using VRC.SDK3.Components;
 using VRC.SDKBase;
 using VRC.Udon;
 namespace MMMaellon
@@ -155,7 +156,8 @@ namespace MMMaellon
         public void RespawnCallback()
         {
             //we have to make sure this gets called on a normal update loop
-            localPlayer.Owner.Respawn();
+            game.tracker.DropUpgrades();
+            localPlayer.Spawn();
             localPlayer.ResetPlayer();
             localPlayer.state = Player.STATE_INVINCIBLE;
             SendCustomEventDelayedSeconds(nameof(InvincinbilityOffCallback), respawnInvincibilityTime);
@@ -172,6 +174,14 @@ namespace MMMaellon
         {
             base.OnPlayerJoined(player);
             player.CombatSetup();
+        }
+
+        public override void OnPlayerRespawn(VRCPlayerApi player)
+        {
+            if (Utilities.IsValid(player) && player.isLocal)
+            {
+                game.tracker.DropUpgrades();
+            }
         }
 
     }

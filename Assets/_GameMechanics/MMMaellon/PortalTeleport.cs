@@ -9,7 +9,7 @@ namespace MMMaellon
     public class PortalTeleport : UdonSharpBehaviour
     {
         Player player;
-
+        public Rigidbody rigid;
         public Animator animator;
         public AudioSource audioSource;
         public AudioClip portalOnSound;
