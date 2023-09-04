@@ -53,24 +53,97 @@ namespace MMMaellon{
 
         Charm currentUpgrade;
 
-        public float weightCurve = 5f;
-        public float baseRunSpeed = 12;
-        public float baseWalkSpeed = 8;
+        [System.NonSerialized]
+        public float weightCurve = 25f;
+        [System.NonSerialized]
+        public float baseRunSpeed = 6;
+        [System.NonSerialized]
+        public float baseWalkSpeed = 3;
+        [System.NonSerialized]
         public float explodeVelocity = 5f;
+
+        public float slowdownRatio = 0.75f;
+        [System.NonSerialized]
+        public float slowdown1Ratio = 0.5f;
+        [System.NonSerialized]
+        public float slowdown2Ratio = 0.25f;
+
+        [System.NonSerialized]
+        public int slowdownLimit = 5;
+        [System.NonSerialized]
+        public int slowdown1Limit = 15;
+        [System.NonSerialized]
+        public int slowdown2Limit = 30;
+        [System.NonSerialized]
+        public int overburdenedLimit = 40;
 
         [System.NonSerialized]
         public int _weight = 0;
+        float speed;
         public int weight{
             get => _weight;
             set
             {
                 _weight = value;
-                Networking.LocalPlayer.SetRunSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
-                Networking.LocalPlayer.SetStrafeSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
-                Networking.LocalPlayer.SetWalkSpeed((baseWalkSpeed * weightCurve) / (_weight + weightCurve));
-                if (Utilities.IsValid(localPlayer))
+                // Networking.LocalPlayer.SetRunSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
+                // Networking.LocalPlayer.SetStrafeSpeed((baseRunSpeed * weightCurve) / (_weight + weightCurve));
+                // Networking.LocalPlayer.SetWalkSpeed((baseWalkSpeed * weightCurve) / (_weight + weightCurve));
+                // speed = _weight / weightCurve;
+                // Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, baseRunSpeed - speed));
+                // Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, baseRunSpeed - speed));
+                // Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, baseWalkSpeed - speed));
+                // speed = 2/(1 + Mathf.Pow(2, weight / weightCurve));
+                // Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, baseRunSpeed * speed));
+                // Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, baseRunSpeed * speed));
+                // Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, baseWalkSpeed * speed));
+                if (value >= overburdenedLimit) {
+                    Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, 1));
+                    Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, 1));
+                    Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, 1));
+                    if (Utilities.IsValid(localPlayer))
+                    {
+                        localPlayer.bag.weightText.text = "<color=black>" + value.ToString();
+                    }
+                } else if (value >= slowdown2Limit)
                 {
-                    localPlayer.bag.totalWeight = value;
+                    Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, baseRunSpeed * slowdown2Ratio));
+                    Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, baseRunSpeed * slowdown2Ratio));
+                    Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, baseWalkSpeed * slowdown2Ratio));
+                    if (Utilities.IsValid(localPlayer))
+                    {
+                        localPlayer.bag.weightText.text = "<color=red>" + value.ToString();
+                    }
+                }
+                else if (value >= slowdown1Limit)
+                {
+                    Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, baseRunSpeed * slowdown1Ratio));
+                    Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, baseRunSpeed * slowdown1Ratio));
+                    Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, baseWalkSpeed * slowdown1Ratio));
+                    if (Utilities.IsValid(localPlayer))
+                    {
+                        localPlayer.bag.weightText.text = "<color=orange>" + value.ToString();
+                    }
+                }
+                else if (value >= slowdownLimit)
+                {
+                    Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, baseRunSpeed * slowdownRatio));
+                    Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, baseRunSpeed * slowdownRatio));
+                    Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, baseWalkSpeed * slowdownRatio));
+                    if (Utilities.IsValid(localPlayer))
+                    {
+                        localPlayer.bag.weightText.text = "<color=yellow>" + value.ToString();
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("what");
+                    Networking.LocalPlayer.SetRunSpeed(Mathf.Max(0, baseRunSpeed));
+                    Networking.LocalPlayer.SetStrafeSpeed(Mathf.Max(0, baseRunSpeed));
+                    Networking.LocalPlayer.SetWalkSpeed(Mathf.Max(0, baseWalkSpeed));
+                    if (Utilities.IsValid(localPlayer))
+                    {
+                        localPlayer.bag.weightText.text = value.ToString();
+                    }
                 }
             }
         }
@@ -109,17 +182,18 @@ namespace MMMaellon{
             {
                 currentUpgrade.player = null;
             }
-            if (Utilities.IsValid(currentUpgrade.player) && currentUpgrade.player.IsOwnerLocal())
-            {
-                if (oldState == currentUpgrade.bagSetter.child.stateID + SmartObjectSync.STATE_CUSTOM)
-                {
-                    localPlayer.bag.totalPrice -= currentUpgrade.price;
-                }
-                if (newState == currentUpgrade.bagSetter.child.stateID + SmartObjectSync.STATE_CUSTOM)
-                {
-                    localPlayer.bag.totalPrice += currentUpgrade.price;
-                }
-            }
+            // if (Utilities.IsValid(currentUpgrade.player) && currentUpgrade.player.IsOwnerLocal())
+            // {
+            //     // if (oldState == currentUpgrade.bagSetter.child.stateID + SmartObjectSync.STATE_CUSTOM)
+            //     // {
+            //     //     localPlayer.bag.totalPrice -= currentUpgrade.price;
+            //     // }
+            //     //we subtract in our own thingy
+            //     if (newState == currentUpgrade.bagSetter.child.stateID + SmartObjectSync.STATE_CUSTOM)
+            //     {
+            //         localPlayer.bag.totalPrice += currentUpgrade.price;
+            //     }
+            // }
         }
 
         public void AddCharm(Charm upgrade)
@@ -178,7 +252,7 @@ namespace MMMaellon{
             {
                 upgrade.bagSetter.child.sync.AddListener(this);
             }
-            weight = weight;
+            weight = 0;
             Networking.LocalPlayer.SetJumpImpulse(4);
         }
         [System.NonSerialized]
@@ -205,6 +279,9 @@ namespace MMMaellon{
             foreach (CharmPool pool in charmPools)
             {
                 pool.SpawnCharms();
+                foreach(CharmSpawn spawn in pool.spawns) {
+                    spawn.ResetSpawn();
+                }
             }
         }
         public void TestRespawnObjects()

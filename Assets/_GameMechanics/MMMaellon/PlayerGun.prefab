@@ -29603,7 +29603,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4247460922687799220}
   - component: {fileID: 2590188358407516202}
-  - component: {fileID: 8104421160350514818}
   m_Layer: 17
   m_Name: hitPlayerSounds
   m_TagString: Untagged
@@ -29641,11 +29640,11 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
-  Spatialize: 1
+  Spatialize: 0
   SpatializePostEffects: 0
   Priority: 200
-  DopplerLevel: 1
-  MinDistance: 1
+  DopplerLevel: 0
+  MinDistance: 400
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -29681,7 +29680,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -29696,7 +29695,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.0027777778
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -29721,24 +29720,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8104421160350514818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6670362445327925973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -617992517, guid: 661092b4961be7145bfbe56e1e62337b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Gain: 8
-  Far: 100
-  Near: 0
-  VolumetricRadius: 0
-  EnableSpatialization: 1
-  UseAudioSourceVolumeCurve: 0
 --- !u!1 &7361543829072141611
 GameObject:
   m_ObjectHideFlags: 0
@@ -40527,7 +40508,7 @@ MonoBehaviour:
   primaryPickup: {fileID: 8543983218461352855}
   constrainedObject: {fileID: 8543983218963117993}
   resetOnDrop: 1
-  disableWhenNotHoldingPrimaryPickup: 0
+  disableWhenNotHoldingPrimaryPickup: 1
   allowDifferentPickupOwners: 0
   preventOneHandedSteal: 1
   positionBias: 0
@@ -40932,7 +40913,7 @@ MonoBehaviour:
   ThrowVelocityBoostScale: 1
   currentlyHeldBy: {fileID: 0}
   pickupable: 1
-  proximity: 1
+  proximity: 0
 --- !u!114 &8543983218461352940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40955,7 +40936,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 8543983218461352941}
-  damage: 15
+  damage: 25
   damageOnTriggerEnter: 0
   damageOnParticleCollision: 1
   damageWhenNotHeld: 0
@@ -40976,8 +40957,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7876647d4e1964e4696ebfe56f12a517, type: 3}
   onHitPlayerSource: {fileID: 2590188358407516202}
   onHitPlayerSounds:
-  - {fileID: 8300000, guid: 439df4262f223eb44ac4bf1967359cc2, type: 3}
-  - {fileID: 8300000, guid: 1ac6fa6bf3b74b94ea5fc96405097d4c, type: 3}
+  - {fileID: 8300000, guid: 9ade27c70aa3a9348a4ac1d8158037dd, type: 3}
   overlapSoundEffects: 0
 --- !u!114 &8543983218461352941
 MonoBehaviour:
@@ -41035,8 +41015,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.17020583, z: 0.2679357}
-  m_Center: {x: 0, y: -0.089806676, z: -0.46273926}
+  m_Size: {x: 0.1, y: 0.20003733, z: 0.99330705}
+  m_Center: {x: 0, y: -0.074890934, z: -0.10005346}
 --- !u!136 &8482312489212689264
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -41184,17 +41164,17 @@ MonoBehaviour:
   _rapidFire: 1
   _altFire: 0
   altFireModeCount: 5
-  affectDamage: 0
+  affectDamage: 1
   affectSFX: 1
   affectAmmo: 0
-  rapidFireDamage: 15
-  altFireDamage: 0f0000000f0000000f0000000f0000000f000000
+  rapidFireDamage: 25
+  altFireDamage: 19000000190000001900000064000000e8030000
   rapidSFX: []
   rapidAmmo: {fileID: 0}
   altFireSFX:
-  - {fileID: 8300000, guid: 82d8b9fb54bef7540987e474f9fde738, type: 3}
-  - {fileID: 8300000, guid: 9e017a82b40b10449a65fe9f9e125616, type: 3}
-  - {fileID: 8300000, guid: 936c79edfeac2954a998fe3fcc1f85e4, type: 3}
+  - {fileID: 8300000, guid: bab8f109e5ff60d4ebdc205134f5f634, type: 3}
+  - {fileID: 8300000, guid: 86fba23008652e24b92bae5f7b01637b, type: 3}
+  - {fileID: 8300000, guid: f7c5b7e7e70448f46b6ecb7d7555905c, type: 3}
   - {fileID: 8300000, guid: 2c8a3897e3f9460468f110d58fb6eb92, type: 3}
   - {fileID: 8300000, guid: 700ecf838d51293449a3cb5357e85c80, type: 3}
   - {fileID: 8300000, guid: 8eb704984d139824e9c3b78a6649ce51, type: 3}
@@ -41290,7 +41270,7 @@ MonoBehaviour:
   hasRaycastPos: 0
   horizontalThreshold: 0
   horizontalThresholdSmoothing: 0
-  backpackOffset: {x: 0.1, y: -0.3, z: -0.4}
+  backpackOffset: {x: 0.15, y: -0.3, z: -0.4}
   desktopPickupOffset: {x: 0, y: -0.45, z: 0.5}
   rotationOffset: {x: 0.86602545, y: 0, z: 0, w: 0.49999997}
   desktopRotationOffset: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}

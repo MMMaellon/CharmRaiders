@@ -19,7 +19,6 @@ namespace MMMaellon
         public TMPro.TextMeshProUGUI priceText;
         public TMPro.TextMeshProUGUI weightText;
         public int _totalPrice;
-        public int _totalWeight;
         public int totalPrice{
             get => _totalPrice;
             set {
@@ -27,18 +26,10 @@ namespace MMMaellon
                 priceText.text = "$" + value;
             }
         }
-        public int totalWeight{
-            get => _totalWeight;
-            set {
-                _totalWeight = value;
-                weightText.text = value.ToString();
-            }
-        }
         public void Start()
         {
             _localplayer = Networking.LocalPlayer;
             totalPrice = totalPrice;
-            totalWeight = totalWeight;
         }
 
         public void NetworkReadyCheck()

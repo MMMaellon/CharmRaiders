@@ -9,6 +9,8 @@ namespace MMMaellon
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class Portal : PortalTeleport
     {
+        public TMPro.TextMeshProUGUI playerList;
+        public TMPro.TextMeshProUGUI scoreText;
         [HideInInspector]
         public GameHandler game;
         [UdonSynced]
@@ -32,7 +34,7 @@ namespace MMMaellon
             }
         }
 
-        [UdonSynced(UdonSyncMode.None)]
+        [UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(points))]
         public int _points;
         public int points{
             get => _points;
@@ -65,13 +67,14 @@ namespace MMMaellon
             }
             pointsTextValue = Mathf.RoundToInt(Mathf.Lerp(pointsTextValue, points, 0.1f));
             pointsText.text = "$" + pointsTextValue;
+            UpdateScoreText();
             if (pointsTextValue != points)
             {
                 SendCustomEventDelayedFrames(nameof(updatePointsText), 5);
             }
         }
         public ParticleSystem[] particles;
-        [UdonSynced(UdonSyncMode.None)]
+        [UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(portal))]
         public bool _portal = false;
         public bool portal{
             get => _portal;
@@ -87,8 +90,19 @@ namespace MMMaellon
         }
         void Start()
         {
+            if (Utilities.IsValid(playerList))
+            {
+                playerList.text = "";
+            }
+            if (Utilities.IsValid(scoreText))
+            {
+                scoreText.text = "$0";
+            }
+
             color = color;
             portal = portal;
+
+            rigid.centerOfMass = rigid.GetComponent<CapsuleCollider>().center;
         }
 
         Charm otherCharm;
@@ -140,6 +154,35 @@ namespace MMMaellon
                 return;
             }
             game.localPlayer.portalIndex = -1;
+        }
+
+        string playerListBuilder;
+        public void UpdatePlayerListText()
+        {
+            if (!Utilities.IsValid(playerList))
+            {
+                return;
+            }
+            playerListBuilder = "";
+            foreach (Player p in game.playerHandler.players)
+            {
+                if (Utilities.IsValid(p.Owner) && p.gameObject.activeSelf && p.portalIndex == index)
+                {
+                    playerListBuilder += p.Owner.displayName + "\n";
+                }
+            }
+            playerList.text = playerListBuilder.ToString();
+        }
+
+        public void UpdateScoreText()
+        {
+            Debug.LogWarning("Update Score Text");
+            if (!Utilities.IsValid(scoreText))
+            {
+                return;
+            }
+            Debug.LogWarning("should be happening rn");
+            scoreText.text = "$" + pointsTextValue;
         }
     }
 }

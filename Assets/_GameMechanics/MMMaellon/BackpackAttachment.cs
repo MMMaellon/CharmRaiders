@@ -67,8 +67,6 @@ namespace MMMaellon
                 SendCustomEventDelayedSeconds(nameof(ReAttach), localLerpTime);
             }
         }
-
-        bool lastPickupeable = false;
         public override void OnEnterState()
         {
             lastAttach = -1001f;
@@ -76,11 +74,7 @@ namespace MMMaellon
             sync.startPos = sync.rigid.position;
             sync.startRot = sync.rigid.rotation;
             lastShortcutTime = Time.timeSinceLevelLoad;
-            if (Utilities.IsValid(sync.pickup))
-            {
-                lastPickupeable = sync.pickup.pickupable;
-                sync.pickup.pickupable = parentPlayer.IsOwnerLocal();
-            }
+            sync.pickupable = parentPlayer.IsOwnerLocal();
             if (changeParent)
             {
                 transform.parent = startParent;
@@ -96,10 +90,7 @@ namespace MMMaellon
         {
             lastAttach = Time.timeSinceLevelLoad;
             sync.rigid.isKinematic = false;
-            if (Utilities.IsValid(sync.pickup))
-            {
-                sync.pickup.pickupable = lastPickupeable && parentPlayer.IsOwnerLocal();
-            }
+            sync.pickupable = parentPlayer.IsOwnerLocal();
             if (parentPlayer.IsOwnerLocal())
             {
                 SendCustomEventDelayedSeconds(nameof(ReAttach), localLerpTime);
@@ -125,7 +116,8 @@ namespace MMMaellon
 
         public override void OnInterpolationStart()
         {
-
+            sync.startPos = sync.rigid.position;
+            sync.startRot = sync.rigid.rotation;
         }
 
         float smootherInterpolation;

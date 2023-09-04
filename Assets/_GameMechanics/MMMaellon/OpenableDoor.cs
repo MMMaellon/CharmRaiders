@@ -87,6 +87,7 @@ namespace MMMaellon{
 
         public void ResetHealth()
         {
+            Networking.SetOwner(Networking.LocalPlayer, gameObject);
             health = maxHealth;
         }
 

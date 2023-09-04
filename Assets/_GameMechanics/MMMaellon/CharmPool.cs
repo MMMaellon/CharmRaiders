@@ -12,7 +12,6 @@ namespace MMMaellon
         public float spawnChance = 0.5f;
         public CharmSpawn[] spawns = new CharmSpawn[0];
         public Charm[] charms = new Charm[0];
-        OpenableDoor door;
         int unspawnedIndex;
         [System.NonSerialized, UdonSynced(UdonSyncMode.None), FieldChangeCallback(nameof(spawnedCharms))]
         public bool[] _spawnedCharms = null;
@@ -24,26 +23,30 @@ namespace MMMaellon
             set
             {
                 _spawnedCharms = value;
-                if (firstNetworkSettle){
-                    if (!networkSettleLoop && !Networking.LocalPlayer.IsOwner(gameObject) && !Networking.IsNetworkSettled)
-                    {
-                        networkSettleLoop = true;
-                        SendCustomEventDelayedSeconds(nameof(CheckForNetworkSettle), 1);
-                    }
-                    return;
-                }
-                for (int i = 0; i < _spawnedCharms.Length; i++)
-                {
-                    if(!_spawnedCharms[i] && charms[i].bagSetter.child.sync.IsLocalOwner() && (charms[i].bagSetter.child.sync.IsAttachedToPlayer() || charms[i].bagSetter.child.sync.state >= SmartObjectSync.STATE_CUSTOM))
-                    {
-                        charms[i].bagSetter.child.sync.Respawn();
-                    }
-                    charms[i].gameObject.SetActive(_spawnedCharms[i]);
-                    charms[i].ResetDisappearTimer();
-                }
                 if (Networking.LocalPlayer.IsOwner(gameObject))
                 {
                     RequestSerialization();
+                }
+                if (_spawnedCharms == null)
+                {
+                    return;
+                }
+                // if (firstNetworkSettle){
+                //     if (!networkSettleLoop && !Networking.LocalPlayer.IsOwner(gameObject) && !Networking.IsNetworkSettled)
+                //     {
+                //         networkSettleLoop = true;
+                //         SendCustomEventDelayedSeconds(nameof(CheckForNetworkSettle), 1);
+                //     }
+                //     return;
+                // }
+                for (int i = 0; i < _spawnedCharms.Length; i++)
+                {
+                    charms[i].gameObject.SetActive(_spawnedCharms[i]);
+                    charms[i].ResetDisappearTimer();
+                    if (!_spawnedCharms[i] && charms[i].bagSetter.child.sync.IsLocalOwner())
+                    {
+                        charms[i].bagSetter.child.sync.Respawn();
+                    }
                 }
             }
         }

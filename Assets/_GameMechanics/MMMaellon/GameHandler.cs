@@ -16,7 +16,8 @@ namespace MMMaellon
         Player _localPlayer = null;
         [System.NonSerialized, UdonSynced, FieldChangeCallback(nameof(error))]
         public string _error = "";
-        public bool skipTeamCheckForDebug = false;
+        [System.NonSerialized]
+        public bool skipTeamCheckForDebug = true;
         public string error
         {
             get => _error;
@@ -184,9 +185,9 @@ namespace MMMaellon
             if (state == STATE_GAME_START_COUNTDOWN && Networking.LocalPlayer.IsOwner(gameObject))
             {
                 activePortalCount = 0;
-                foreach (Player p in playerHandler.players)
+                foreach (Portal p in portals)
                 {
-                    if (p.gameObject.activeSelf && p.portalIndex >= 0)
+                    if (p.portal)
                     {
                         activePortalCount++;
                         if (activePortalCount > 1)//at least two teams
@@ -250,6 +251,13 @@ namespace MMMaellon
             {
                 localPlayer.ResetPlayerAndPoints();
             }
+            foreach (Portal p in portals)
+            {
+                if (Networking.LocalPlayer.IsOwner(p.gameObject))
+                {
+                    p.points = 0;
+                }
+            }
         }
 
         public void OnStopGameCountdown()
@@ -264,6 +272,8 @@ namespace MMMaellon
             if (Utilities.IsValid(localPlayer))
             {
                 localPlayer.ResetPlayerAndPoints();
+                // localPlayer.bag.totalPrice = 0;
+                // localPlayer.bag.totalWeight = 0;
             }
         }
 

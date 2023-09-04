@@ -91,10 +91,7 @@ public class PlayerGunModeSetter : UdonSharpBehaviour
             alt.altFire = 5;
             return;
         }
-        if (rifle)
-        {
-            alt.rapidFire = true;
-        }
+        alt.rapidFire = rifle;
         if (sniper && shotgun)
         {
             alt.altFire = 4;

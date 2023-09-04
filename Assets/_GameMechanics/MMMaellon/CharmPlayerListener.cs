@@ -25,29 +25,6 @@ namespace MMMaellon
         public P_Shooters.ResourceManager damageBoostResource;
         public P_Shooters.ResourceManager pointsListener;
         Player p;
-        [UdonSynced(UdonSyncMode.None)]
-        public bool _gameActive = false;
-        public bool gameActive{
-            get => _gameActive;
-            set
-            {
-                _gameActive = value;
-                //game either ended or started. We refresh.
-                if (Utilities.IsValid(playerHandler.localPlayer))
-                {
-                    playerHandler.localPlayer.SetResourceValueById(pointsListener.id, 0);
-                    p = playerHandler.localPlayer.GetComponent<Player>();
-                    if (!Utilities.IsValid(p.portal) && Networking.LocalPlayer.IsOwner(p.portal.gameObject))
-                    {
-                        p.portal.points = 0;
-                    }
-                }
-                if (Networking.LocalPlayer.IsOwner(gameObject))
-                {
-                    RequestSerialization();
-                }
-            }
-        }
         void Start()
         {
             respawnTimes = new float[playerHandler.players.Length];
@@ -63,13 +40,17 @@ namespace MMMaellon
             Networking.LocalPlayer.CombatSetDamageGraphic(null);
         }
 
+        Player attackerPlayer;
+        Player receiverPlayer;
         public override bool CanDealDamage(P_Shooters.Player attacker, P_Shooters.Player receiver)
         {
-            if (gameObject.activeInHierarchy && respawnTimes[receiver.id] + respawnDelayTime + respawnInvincibilityTime >= Time.timeSinceLevelLoad)
+            attackerPlayer = (Player)attacker;
+            receiverPlayer = (Player)receiver;
+            if (game.state != GameHandler.STATE_GAME_IN_PROGRESS || respawnTimes[receiver.id] + respawnDelayTime + respawnInvincibilityTime >= Time.timeSinceLevelLoad || receiverPlayer.portalIndex == attackerPlayer.portalIndex || receiverPlayer.state == Player.STATE_INVINCIBLE || receiverPlayer.state == Player.STATE_SPECTATING || receiverPlayer.state == Player.STATE_DEAD)
             {
                 return false;
             }
-            return gameActive;
+            return true;
         }
 
         public override void OnDecreaseHealth(P_Shooters.Player attacker, P_Shooters.Player receiver, int value)
@@ -156,7 +137,7 @@ namespace MMMaellon
         public void RespawnCallback()
         {
             //we have to make sure this gets called on a normal update loop
-            game.tracker.DropUpgrades();
+            // game.tracker.DropUpgrades();
             localPlayer.Spawn();
             localPlayer.ResetPlayer();
             localPlayer.state = Player.STATE_INVINCIBLE;

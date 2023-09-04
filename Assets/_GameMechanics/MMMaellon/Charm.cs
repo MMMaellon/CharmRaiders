@@ -173,7 +173,7 @@ namespace MMMaellon
                 return;
             } else if (portalIndex >= 0 && portalIndex < game.portals.Length && gameObject.activeSelf)
             {
-                transform.position = Vector3.Lerp(transform.position, game.portals[portalIndex].rigid.centerOfMass, 0.25f);
+                transform.position = Vector3.Lerp(transform.position, game.portals[portalIndex].rigid.worldCenterOfMass, 0.25f);
                 transform.rotation = Quaternion.Slerp(transform.rotation, Random.rotation, 0.25f);
                 SendCustomEventDelayedFrames(nameof(DisappearLoop), 1);
             }

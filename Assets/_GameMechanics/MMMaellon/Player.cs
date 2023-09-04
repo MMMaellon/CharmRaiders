@@ -21,16 +21,17 @@ namespace MMMaellon
                 {
                     portal.animator.enabled = true;
                     portal.animator.SetBool("local", false);
+                    portal.color = portal.color;
                     portal.EnterAnimation();
                     if (Networking.LocalPlayer.IsOwner(portal.gameObject) && portal.portal)
                     {
                         foundPortalOwner = false;
                         foreach (Player p in playerHandler.players)
                         {
-                            if (p.gameObject.activeSelf && p.portal == portal)
+                            if (p.gameObject.activeSelf && p.portalIndex == portal.index && p != this)
                             {
                                 foundPortalOwner = true;
-                                p.SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.All, nameof(TakeOwnershipOfPortal));
+                                p.RequestTakeOwnerShipOfPortal();
                                 break;
                             }
                         }
@@ -54,13 +55,18 @@ namespace MMMaellon
                                 if (activePortalCount <= 1)
                                 {
                                     //Not enough people still playing
-                                    game.EndGame();
+                                    game.RequestEndGame();
                                 }
                             }
                         }
                     }
                 }
                 _portalIndex = value;
+                statsAnimator.SetInteger("team", value);
+                if (Utilities.IsValid(portal))
+                {
+                    portal.UpdatePlayerListText();
+                }
                 if (value < 0 || value >= game.portals.Length)
                 {
                     portal = null;
@@ -68,10 +74,12 @@ namespace MMMaellon
                 } else
                 {
                     portal = game.portals[value];
+                    portal.UpdatePlayerListText();
                     if (IsOwnerLocal())
                     {
                         portal.animator.enabled = true;
                         portal.animator.SetBool("local", true);
+                        portal.color = portal.color;
                         portal.EnterAnimation();
                         if (!portal.portal)
                         {
@@ -120,6 +128,11 @@ namespace MMMaellon
             points = 0;
         }
 
+        public void RequestTakeOwnerShipOfPortal()
+        {
+            SendCustomNetworkEvent(VRC.Udon.Common.Interfaces.NetworkEventTarget.Owner, nameof(TakeOwnershipOfPortal));
+        }
+
         public void TakeOwnershipOfPortal()
         {
             if (Utilities.IsValid(portal))
@@ -130,6 +143,7 @@ namespace MMMaellon
         }
         public Portal portal;
         public Bag bag;
+        public PlayerGunModeSetter gun;
         public override void _OnOwnerSet()
         {
             base._OnOwnerSet();
